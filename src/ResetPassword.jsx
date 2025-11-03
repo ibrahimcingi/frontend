@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Mail, Lock, ArrowLeft, CheckCircle,Eye, EyeOff } from 'lucide-react';
 
 export  function ForgotPasswordPage() {
-  const [step, setStep] = useState(1); // 1: Email, 2: OTP, 3: New Password
+  const [step, setStep] = useState(1); 
   const [email, setEmail] = useState('');
   const [otp, setOtp] = useState(['', '', '', '', '', '']);
   const [newPassword, setNewPassword] = useState('');
@@ -106,7 +106,7 @@ export  function ForgotPasswordPage() {
       return;
     }
 
-    // Şifre eşleşme kontrolü
+    
     if (newPassword !== confirmPassword) {
       setError("Şifreler eşleşmiyor");
       setIsLoading(false)
@@ -205,7 +205,7 @@ export  function ForgotPasswordPage() {
                 <button
                   onClick={handleSendOTP}
                   disabled={isLoading}
-                  className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                  className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none cursor-pointer"
                 >
                   {isLoading ? (
                     <div className="flex items-center justify-center gap-2">
@@ -260,7 +260,7 @@ export  function ForgotPasswordPage() {
                   <p className="text-gray-300 text-sm mb-2">Kodu almadınız mı?</p>
                   <button
                     onClick={handleResendOTP}
-                    className="text-purple-400 hover:text-purple-300 font-semibold text-sm transition-colors"
+                    className="text-purple-400 hover:text-purple-300 font-semibold text-sm transition-colors cursor-pointer"
                   >
                     Tekrar Gönder
                   </button>
@@ -270,7 +270,7 @@ export  function ForgotPasswordPage() {
                 <button
                   onClick={handleVerifyOTP}
                   disabled={isLoading || otp.some(d => !d)}
-                  className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                  className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none cursor-pointer"
                 >
                   {isLoading ? (
                     <div className="flex items-center justify-center gap-2">
@@ -285,7 +285,7 @@ export  function ForgotPasswordPage() {
                 {/* Back Button */}
                 <button
                   onClick={() => setStep(1)}
-                  className="w-full flex items-center justify-center gap-2 text-gray-300 hover:text-white transition-colors py-2"
+                  className="w-full flex items-center justify-center gap-2 text-gray-300 hover:text-white transition-colors py-2 cursor-pointer"
                 >
                   <ArrowLeft className="w-4 h-4" />
                   <span>E-posta adresini değiştir</span>
@@ -371,14 +371,14 @@ export  function ForgotPasswordPage() {
                   </div>
                 </div>
 
-                {/* Hata mesajı */}
+                
                   {error && <p className="text-red-500 text-sm">{error}</p>}
 
                 {/* Submit Button */}
                 <button
                   onClick={handleResetPassword}
                   disabled={isLoading}
-                  className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                  className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none cursor-pointer"
                 >
                   {isLoading ? (
                     <div className="flex items-center justify-center gap-2">
@@ -408,7 +408,7 @@ export  function ForgotPasswordPage() {
               {/* Login Button */}
               <button
                 onClick={() => window.location.href = '/login'}
-                className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-200 transform hover:scale-105"
+                className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-200 transform hover:scale-105 cursor-pointer"
               >
                 Giriş Yap
               </button>
@@ -417,7 +417,7 @@ export  function ForgotPasswordPage() {
 
           {/* Back to Login (Visible in step 1 only) */}
           {step === 1 && (
-            <div className="mt-6 text-center">
+            <div className="mt-6 text-center cursor-pointer">
               <a href="http://localhost:5173/login" className="text-gray-300 hover:text-white transition-colors flex items-center justify-center gap-2">
                 <ArrowLeft className="w-4 h-4" />
                 <span>Giriş sayfasına dön</span>
@@ -428,7 +428,7 @@ export  function ForgotPasswordPage() {
 
         {/* Footer */}
         <p className="text-center text-gray-400 text-sm mt-6">
-          © 2025 Blog. Tüm hakları saklıdır.
+        © 2025 haveAI. Tüm hakları saklıdır.
         </p>
       </div>
     </div>

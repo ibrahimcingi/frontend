@@ -81,7 +81,7 @@ export function LoginPage() {
           {/* Google Login Button */}
           <button
             onClick={handleGoogleLogin}
-            className="w-full flex items-center justify-center gap-3 bg-white hover:bg-gray-50 text-gray-800 font-semibold py-3 px-4 rounded-xl transition-all duration-200 transform hover:scale-105 mb-6"
+            className="w-full flex items-center justify-center gap-3 bg-white hover:bg-gray-50 text-gray-800 font-semibold py-3 px-4 rounded-xl transition-all duration-200 transform hover:scale-105 mb-6 cursor-pointer"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -171,7 +171,7 @@ export function LoginPage() {
                   Beni Hatırla
                 </label>
               </div>
-              <a href="http://localhost:5173/resetPassword" className="text-sm font-medium text-purple-400 hover:text-purple-300">
+              <a href="http://localhost:5173/resetPassword" className="text-sm font-medium text-purple-400 hover:text-purple-300 cursor-pointer">
                 Şifremi Unuttum
               </a>
             </div>
@@ -180,7 +180,7 @@ export function LoginPage() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+              className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none cursor-pointer"
             >
               {isLoading ? (
                 <div className="flex items-center justify-center gap-2">
@@ -197,7 +197,7 @@ export function LoginPage() {
           <div className="mt-6 text-center">
             <p className="text-gray-300">
               Hesabınız yok mu?{' '}
-              <a href="http://localhost:5173/register" className="font-semibold text-purple-400 hover:text-purple-300">
+              <a href="http://localhost:5173/register" className="font-semibold text-purple-400 hover:text-purple-300 cursor-pointer">
                 Kayıt Ol
               </a>
             </p>
@@ -206,7 +206,7 @@ export function LoginPage() {
 
         {/* Footer */}
         <p className="text-center text-gray-400 text-sm mt-6">
-          © 2025 Blog. Tüm hakları saklıdır.
+        © 2025 haveAI. Tüm hakları saklıdır.
         </p>
       </div>
     </div>
