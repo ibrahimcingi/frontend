@@ -11,6 +11,7 @@ import React  from "react";
 import { LoginPage } from './LoginPage.jsx';
 import { RegisterPage } from './RegisterPage.jsx';
 import { ForgotPasswordPage } from './ResetPassword.jsx';
+import { WordPressConnectionPage } from './WordpressConnection.jsx';
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/resetPassword" element={<ForgotPasswordPage />} />
+      <Route path="/wordpressConnection" element={<WordPressConnectionPage />} />
       <Route path="/" element={<MainPage />} />
       </Routes>
     </BrowserRouter>
