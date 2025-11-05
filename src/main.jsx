@@ -21,7 +21,7 @@ import { useNavigate,useLocation } from "react-router-dom";
 function App() {
   const [email,setEmail]=useState()
   const [name,setName]=useState()
-  const [wordpressUrl,setWordpressUrl]=useState('')
+  const [wordpressUrl,setWordpressUrl]=useState()
   const [categories,setCategories]=useState([])
   const [isLoading, setIsLoading] = useState(true);
   const location = useLocation();
@@ -63,7 +63,7 @@ function App() {
 
   return (
     <Routes>
-      <Route path="/login" element={<LoginPage />} />
+      <Route path="/login" element={<LoginPage  />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/resetPassword" element={<ForgotPasswordPage />} />
       <Route path="/wordpressConnection" element={<WordPressConnectionPage />} />

@@ -41,7 +41,7 @@ export  function RegisterPage() {
         setTimeout(() => {
           setIsLoading(false);
         }, 1000);
-        navigate('/')
+        navigate('/wordpressConnection')
       }
         
   

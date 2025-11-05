@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Mail, Lock, ArrowLeft, CheckCircle,Eye, EyeOff } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export  function ForgotPasswordPage() {
   const [step, setStep] = useState(1); 
@@ -11,6 +12,8 @@ export  function ForgotPasswordPage() {
   const [error, setError] = useState();
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const navigate=useNavigate()
 
   const sendOTPRequest = async (email) => {
     try {
@@ -72,7 +75,6 @@ export  function ForgotPasswordPage() {
     
     const otpCode = otp.join('');
     
-    // Backend API çağrısı
     try {
       const response=await fetch('http://localhost:8000/api/auth/verifyOTP',{
         method:"POST",
@@ -407,7 +409,7 @@ export  function ForgotPasswordPage() {
 
               {/* Login Button */}
               <button
-                onClick={() => window.location.href = '/login'}
+                onClick={() => navigate('/login')}
                 className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-200 transform hover:scale-105 cursor-pointer"
               >
                 Giriş Yap

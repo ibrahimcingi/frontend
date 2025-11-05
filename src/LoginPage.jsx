@@ -29,8 +29,12 @@ export function LoginPage() {
       console.log("Login response:", data);
   
       if (res.ok && data.token) {
+
         console.log("✅ Logged in!");
-        navigate("/wordpressConnection");
+        if(!data.user.wordpressUrl){
+          navigate('/wordpressConnection')
+        }
+        navigate('/') 
       } else {
         console.error("❌ Login failed:", data.message || data.error);
         alert("Giriş başarısız! Email veya şifre hatalı olabilir.");
@@ -51,7 +55,6 @@ export function LoginPage() {
     }catch(error){
       console.error('Login error:', error);
     }
-    // window.location.href = 'YOUR_BACKEND_URL/api/auth/google';
     console.log('Google login clicked');
   };
 

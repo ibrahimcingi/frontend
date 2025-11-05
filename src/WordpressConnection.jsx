@@ -18,7 +18,7 @@ export  function WordPressConnectionPage() {
   const navigate=useNavigate()
 
   const handleChange = (e) => {
-    setFormData({
+    setFormData({ 
       ...formData,
       [e.target.name]: e.target.value
     });
