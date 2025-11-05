@@ -95,9 +95,9 @@ export  function WordPressConnectionPage() {
       if(response.ok){
         setTimeout(() => {
           setIsLoading(false);
-          navigate('/')
           alert('WordPress bağlantısı başarıyla kaydedildi!');
-        }, 1500);
+          navigate('/')
+        }, 2000);
       }else if(response.status===401){
         navigate('/login')
       }

@@ -27,11 +27,10 @@ export function LoginPage() {
   
       const data = await res.json();
       console.log("Login response:", data);
-      console.log(rememberMe)
   
       if (res.ok && data.token) {
         console.log("✅ Logged in!");
-        navigate("/");
+        navigate("/wordpressConnection");
       } else {
         console.error("❌ Login failed:", data.message || data.error);
         alert("Giriş başarısız! Email veya şifre hatalı olabilir.");
