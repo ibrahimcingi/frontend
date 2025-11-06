@@ -28,7 +28,7 @@ export default function DashBoardPage({name,email,wordpressUrl,categories}) {
 
   const fetchSummary=async ()=>{
     try{
-      const response=await fetch(`http://localhost:8000/api/wordpress/summary?wordpressUrl=${wordpressUrl}`,{
+      const response=await fetch(`https://autonomous-blog-app-9oron.ondigitalocean.app/api/wordpress/summary?wordpressUrl=${wordpressUrl}`,{
         method:"GET",
         headers:{
           "Content-type":"application/json",
@@ -100,7 +100,7 @@ export default function DashBoardPage({name,email,wordpressUrl,categories}) {
     
     // Backend API çağrısı
     try {
-      const response=await fetch('http://localhost:8000/generate-and-post',{
+      const response=await fetch('https://autonomous-blog-app-9oron.ondigitalocean.app/generate-and-post',{
         method:"POST",
         credentials:'include',
         headers:{
@@ -143,9 +143,8 @@ export default function DashBoardPage({name,email,wordpressUrl,categories}) {
 
   const handleLogout =async () => {
     try{
-      const response=await fetch('http://localhost:8000/api/auth/logout',{
+      const response=await fetch('https://autonomous-blog-app-9oron.ondigitalocean.app/api/auth/logout',{
         method:"POST",
-        headers:{"Content-type":"application/json"}
       })
       if(response.ok){
         console.log('Logout');
@@ -215,7 +214,7 @@ export default function DashBoardPage({name,email,wordpressUrl,categories}) {
             <Home className="w-5 h-5" />
             <span className="font-medium">Ana Sayfa</span>
           </a>
-          <a href="#" className="flex items-center gap-3 px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-colors">
+          <a href="http://localhost:5173/BlogHistory" className="flex items-center gap-3 px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-colors">
             <FileText className="w-5 h-5" />
             <span>Blog Geçmişi</span>
           </a>
@@ -236,7 +235,7 @@ export default function DashBoardPage({name,email,wordpressUrl,categories}) {
               <p className="text-xs text-gray-400">{email}</p>
             </div>
           </div>
-          <button onClick={handleLogout} className="flex items-center gap-3 px-4 py-2 text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-colors w-full">
+          <button onClick={handleLogout} className="flex items-center gap-3 px-4 py-2 text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-colors w-full cursor-pointer">
             <LogOut className="w-4 h-4" />
             <span className="text-sm">Çıkış Yap</span>
           </button>

@@ -48,7 +48,7 @@ export  function WordPressConnectionPage() {
     
     // Backend API çağrısı - Bağlantıyı test et
     try {
-      const response=await fetch('http://localhost:8000/api/wordpress/testConnection',{
+      const response=await fetch('https://autonomous-blog-app-9oron.ondigitalocean.app/api/wordpress/testConnection',{
         method: 'POST',
         credentials: "include",
            headers: { 
@@ -83,7 +83,7 @@ export  function WordPressConnectionPage() {
     setIsLoading(true);
     if(connectionStatus==='success'){
     try {
-      const response=await fetch('http://localhost:8000/api/wordpress/save',{
+      const response=await fetch('https://autonomous-blog-app-9oron.ondigitalocean.app/api/wordpress/save',{
         method:"POST",
         credentials:'include',
         headers:{'Content-Type': 'application/json',},

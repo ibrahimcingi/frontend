@@ -18,7 +18,7 @@ export function LoginPage() {
     setIsLoading(true);
   
     try {
-      const res = await fetch("http://localhost:8000/api/auth/login", {
+      const res = await fetch("https://autonomous-blog-app-9oron.ondigitalocean.app/api/auth/login", {
         method: "POST",
         credentials: "include", // cookie için gerekli
         headers: { "Content-Type": "application/json" },
@@ -51,7 +51,7 @@ export function LoginPage() {
   const handleGoogleLogin = () => {
     // Google OAuth için backend endpoint'e yönlendirme
     try{
-      window.location.href = 'http://localhost:8000/api/auth/google'
+      window.location.href = 'https://autonomous-blog-app-9oron.ondigitalocean.app/api/auth/google'
     }catch(error){
       console.error('Login error:', error);
     }

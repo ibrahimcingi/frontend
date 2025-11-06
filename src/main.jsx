@@ -13,6 +13,7 @@ import { LoginPage } from './LoginPage.jsx';
 import { RegisterPage } from './RegisterPage.jsx';
 import { ForgotPasswordPage } from './ResetPassword.jsx';
 import { WordPressConnectionPage } from './WordpressConnection.jsx';
+import { BlogHistoryPage } from './BlogHistoryPage.jsx';
 
 import { useNavigate,useLocation } from "react-router-dom";
 
@@ -30,7 +31,7 @@ function App() {
 
   const fetchUserData = async () => {
     try {
-      const response = await fetch('http://localhost:8000/api/users/me', {
+      const response = await fetch('https://autonomous-blog-app-9oron.ondigitalocean.app/api/users/me', {
         method: "GET",
         credentials: 'include',
         headers: { "Content-Type": "application/json" },
@@ -67,6 +68,7 @@ function App() {
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/resetPassword" element={<ForgotPasswordPage />} />
       <Route path="/wordpressConnection" element={<WordPressConnectionPage />} />
+      <Route path="/BlogHistory" element={<BlogHistoryPage wordpressUrl={wordpressUrl} Usercategories={categories} name={name} email={email} />} />
       <Route
         path="/"
         element={

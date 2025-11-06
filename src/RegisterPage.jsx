@@ -27,7 +27,7 @@ export  function RegisterPage() {
     
     // Backend API çağrısı burada yapılacak
     try {
-      const response=await fetch('http://localhost:8000/api/users/registration',{
+      const response=await fetch('https://autonomous-blog-app-9oron.ondigitalocean.app/api/users/registration',{
         method:"POST",
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
@@ -54,7 +54,7 @@ export  function RegisterPage() {
   const handleGoogleRegister = () => {
     console.log('Google register clicked');
     try{
-      window.location.href = 'http://localhost:8000/api/auth/google'
+      window.location.href = 'https://autonomous-blog-app-9oron.ondigitalocean.app/api/auth/google'
     }catch(error){
       console.error('Login error:', error);
     }

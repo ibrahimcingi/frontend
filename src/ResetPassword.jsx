@@ -17,7 +17,7 @@ export  function ForgotPasswordPage() {
 
   const sendOTPRequest = async (email) => {
     try {
-      const response = await fetch('http://localhost:8000/api/auth/SendResetPasswordEmail', {
+      const response = await fetch('https://autonomous-blog-app-9oron.ondigitalocean.app/api/auth/SendResetPasswordEmail', {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
@@ -76,7 +76,7 @@ export  function ForgotPasswordPage() {
     const otpCode = otp.join('');
     
     try {
-      const response=await fetch('http://localhost:8000/api/auth/verifyOTP',{
+      const response=await fetch('https://autonomous-blog-app-9oron.ondigitalocean.app/api/auth/verifyOTP',{
         method:"POST",
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email:email, OTP: otpCode })
@@ -118,7 +118,7 @@ export  function ForgotPasswordPage() {
     // Backend API çağrısı
     try {
 
-      const response=await fetch('http://localhost:8000/api/auth/resetPassword',{
+      const response=await fetch('https://autonomous-blog-app-9oron.ondigitalocean.app/api/auth/resetPassword',{
         method:"POST",
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({OTP:otp.join(''),new_password:newPassword,email:email})
