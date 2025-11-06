@@ -92,6 +92,8 @@ export  function WordPressConnectionPage() {
       
       console.log('Saving WordPress connection:', formData);
 
+      
+
       if(response.ok){
         setTimeout(() => {
           setIsLoading(false);
