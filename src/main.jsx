@@ -14,6 +14,7 @@ import { RegisterPage } from './RegisterPage.jsx';
 import { ForgotPasswordPage } from './ResetPassword.jsx';
 import { WordPressConnectionPage } from './WordpressConnection.jsx';
 import { BlogHistoryPage } from './BlogHistoryPage.jsx';
+import { SettingsPage } from './SettingsPage.jsx';
 
 import { useNavigate,useLocation } from "react-router-dom";
 
@@ -23,6 +24,7 @@ function App() {
   const [email,setEmail]=useState()
   const [name,setName]=useState()
   const [wordpressUrl,setWordpressUrl]=useState()
+  const [wordpressUsername,setWordpressUsername]=useState()
   const [categories,setCategories]=useState([])
   const [isLoading, setIsLoading] = useState(true);
   const location = useLocation();
@@ -45,6 +47,7 @@ function App() {
           setName(data.user.name);
           setWordpressUrl(data.user.wordpressUrl);
           setCategories(data.user.categories);
+          setWordpressUsername(data.user.wordpressUser)
       } else if (response.status === 401) {
         navigate('/login');
       }
@@ -69,6 +72,7 @@ function App() {
       <Route path="/resetPassword" element={<ForgotPasswordPage />} />
       <Route path="/wordpressConnection" element={<WordPressConnectionPage />} />
       <Route path="/BlogHistory" element={<BlogHistoryPage wordpressUrl={wordpressUrl} Usercategories={categories} name={name} email={email} />} />
+      <Route path="/settings" element={<SettingsPage wordpressUrl={wordpressUrl} wordpressUsername={wordpressUsername} categories={categories} name={name} email={email} />} />
       <Route
         path="/"
         element={
