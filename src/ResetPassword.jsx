@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Mail, Lock, ArrowLeft, CheckCircle,Eye, EyeOff } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { Root } from '../config.js';
 
 export  function ForgotPasswordPage() {
   const [step, setStep] = useState(1); 
@@ -17,7 +18,7 @@ export  function ForgotPasswordPage() {
 
   const sendOTPRequest = async (email) => {
     try {
-      const response = await fetch('https://autonomous-blog-app-9oron.ondigitalocean.app/api/auth/SendResetPasswordEmail', {
+      const response = await fetch(`${Root}/api/auth/SendResetPasswordEmail`, {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
@@ -76,7 +77,7 @@ export  function ForgotPasswordPage() {
     const otpCode = otp.join('');
     
     try {
-      const response=await fetch('https://autonomous-blog-app-9oron.ondigitalocean.app/api/auth/verifyOTP',{
+      const response=await fetch(`${Root}/api/auth/verifyOTP`,{
         method:"POST",
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email:email, OTP: otpCode })
@@ -118,7 +119,7 @@ export  function ForgotPasswordPage() {
     // Backend API çağrısı
     try {
 
-      const response=await fetch('https://autonomous-blog-app-9oron.ondigitalocean.app/api/auth/resetPassword',{
+      const response=await fetch(`${Root}/api/auth/resetPassword`,{
         method:"POST",
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({OTP:otp.join(''),new_password:newPassword,email:email})

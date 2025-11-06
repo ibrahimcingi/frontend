@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Globe, Key, Tag, CheckCircle, AlertCircle, Info, ExternalLink,Eye,EyeOff } from 'lucide-react';
 import { useNavigate } from "react-router-dom";
+import { Root } from '../config.js';
 
 export  function WordPressConnectionPage() {
   const [formData, setFormData] = useState({
@@ -48,7 +49,7 @@ export  function WordPressConnectionPage() {
     
     // Backend API çağrısı - Bağlantıyı test et
     try {
-      const response=await fetch('https://autonomous-blog-app-9oron.ondigitalocean.app/api/wordpress/testConnection',{
+      const response=await fetch(`${Root}/api/wordpress/testConnection`,{
         method: 'POST',
         credentials: "include",
            headers: { 
@@ -83,7 +84,7 @@ export  function WordPressConnectionPage() {
     setIsLoading(true);
     if(connectionStatus==='success'){
     try {
-      const response=await fetch('https://autonomous-blog-app-9oron.ondigitalocean.app/api/wordpress/save',{
+      const response=await fetch(`${Root}/api/wordpress/save`,{
         method:"POST",
         credentials:'include',
         headers:{'Content-Type': 'application/json',},
@@ -92,7 +93,10 @@ export  function WordPressConnectionPage() {
       
       console.log('Saving WordPress connection:', formData);
 
-      
+      const data = await response.json(); // 👈 body'yi JSON olarak oku
+
+      console.log('Response status:', response.status);
+      console.log('Response data:', data);
 
       if(response.ok){
         setTimeout(() => {
@@ -359,13 +363,7 @@ export  function WordPressConnectionPage() {
               )}
             </button>
 
-            {/* Skip Button */}
-            <button
-              onClick={() => console.log('Skip to dashboard')}
-              className="w-full text-gray-400 hover:text-white transition-colors py-2 text-sm"
-            >
-              Şimdilik Atla
-            </button>
+            
           </div>
         </div>
 

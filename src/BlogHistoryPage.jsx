@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 
 import { useNavigate } from "react-router-dom";
+import { Root } from '../config.js';
 
 export  function BlogHistoryPage({wordpressUrl,Usercategories,name,email}) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -19,7 +20,7 @@ export  function BlogHistoryPage({wordpressUrl,Usercategories,name,email}) {
 
   const fetchBlogPosts=async ()=>{
     try{
-      const response=await fetch(`https://autonomous-blog-app-9oron.ondigitalocean.app/api/wordpress/BlogPosts?wordpressUrl=${wordpressUrl}`,{
+      const response=await fetch(`${Root}/api/wordpress/BlogPosts?wordpressUrl=${wordpressUrl}`,{
         method:"GET",
         headers:{"Content-type":"application/json"}
       })
@@ -54,7 +55,7 @@ export  function BlogHistoryPage({wordpressUrl,Usercategories,name,email}) {
 
   const handleLogout =async  () => {
     try{
-      const response=await fetch('https://autonomous-blog-app-9oron.ondigitalocean.app/api/auth/logout',{
+      const response=await fetch(`${Root}/api/auth/logout`,{
         method:"POST",
       })
       if(response.ok){
@@ -141,7 +142,7 @@ export  function BlogHistoryPage({wordpressUrl,Usercategories,name,email}) {
             <FileText className="w-5 h-5" />
             <span className="font-medium">Blog Geçmişi</span>
           </a>
-          <a href="#" className="flex items-center gap-3 px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-colors">
+          <a href="http://localhost:5173/settings" className="flex items-center gap-3 px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-colors">
             <Settings className="w-5 h-5" />
             <span>Ayarlar</span>
           </a>

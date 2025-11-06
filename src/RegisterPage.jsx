@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Eye, EyeOff, Mail, Lock, User } from 'lucide-react';
 import { useNavigate } from "react-router-dom";
+import { Root } from '../config.js';
 
 export  function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -27,7 +28,7 @@ export  function RegisterPage() {
     
     // Backend API çağrısı burada yapılacak
     try {
-      const response=await fetch('https://autonomous-blog-app-9oron.ondigitalocean.app/api/users/registration',{
+      const response=await fetch(`${Root}/api/users/registration`,{
         method:"POST",
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)

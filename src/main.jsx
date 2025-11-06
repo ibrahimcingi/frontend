@@ -7,6 +7,7 @@ import React, { useState,useEffect } from 'react';
 import DashBoardPage from './DashBoard.jsx';
 
 import ReactDOM from "react-dom/client";
+import { Root } from '../config.js';
 
 
 import { LoginPage } from './LoginPage.jsx';
@@ -33,7 +34,7 @@ function App() {
 
   const fetchUserData = async () => {
     try {
-      const response = await fetch('https://autonomous-blog-app-9oron.ondigitalocean.app/api/users/me', {
+      const response = await fetch(`${Root}/api/users/me`, {
         method: "GET",
         credentials: 'include',
         headers: { "Content-Type": "application/json" },
@@ -49,7 +50,7 @@ function App() {
           setCategories(data.user.categories);
           setWordpressUsername(data.user.wordpressUser)
       } else if (response.status === 401) {
-        navigate('/login');
+        //navigate('/login');
       }
     } catch (error) {
       console.error("❌ User fetch error:", error);

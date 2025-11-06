@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Eye, EyeOff, Mail, Lock } from 'lucide-react';
 import { useNavigate } from "react-router-dom";
+import { Root } from '../config.js';
 
 
 
@@ -18,7 +19,7 @@ export function LoginPage() {
     setIsLoading(true);
   
     try {
-      const res = await fetch("https://autonomous-blog-app-9oron.ondigitalocean.app/api/auth/login", {
+      const res = await fetch(`${Root}/api/auth/login`, {
         method: "POST",
         credentials: "include", // cookie için gerekli
         headers: { "Content-Type": "application/json" },

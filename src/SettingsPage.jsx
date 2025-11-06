@@ -5,6 +5,7 @@ import {
   CreditCard, Bell, Shield, Trash2, CheckCircle, Eye, EyeOff
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { Root } from '../config.js';
 
 export  function SettingsPage({name,email,wordpressUrl,wordpressUsername,categories}) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -16,8 +17,8 @@ export  function SettingsPage({name,email,wordpressUrl,wordpressUsername,categor
 
   // Account Settings
   const [accountData, setAccountData] = useState({
-    name: {name},
-    email: {email},
+    name: name,
+    email: email,
     currentPassword: '',
     newPassword: '',
     confirmPassword: ''
@@ -25,8 +26,8 @@ export  function SettingsPage({name,email,wordpressUrl,wordpressUsername,categor
 
   // WordPress Settings
   const [wordpressData, setWordpressData] = useState({
-    url: {wordpressUrl},
-    username: {wordpressUsername},
+    url: wordpressUrl,
+    username: wordpressUsername,
     applicationPassword: '••••••••••••',
     categories: categories
   });
@@ -51,7 +52,7 @@ export  function SettingsPage({name,email,wordpressUrl,wordpressUsername,categor
     setIsSaving(true);
     // Backend API call
     try {
-      const response=await fetch('https://autonomous-blog-app-9oron.ondigitalocean.app/api/users/UpdateAccount',{
+      const response=await fetch(`${Root}/api/users/UpdateAccount`,{
         method:"PUT",
         credentials:'include',
         headers:{"Content-type":"application/json"},
@@ -86,7 +87,7 @@ export  function SettingsPage({name,email,wordpressUrl,wordpressUsername,categor
     setIsSaving(true);
     // Backend API call
     try {
-      const response=await fetch('https://autonomous-blog-app-9oron.ondigitalocean.app/api/users/ChangePassword',{
+      const response=await fetch(`${Root}/api/users/ChangePassword`,{
         method:"PUT",
         credentials:'include',
         headers:{"Content-type":"application/json"},
@@ -122,7 +123,7 @@ export  function SettingsPage({name,email,wordpressUrl,wordpressUsername,categor
     setIsSaving(true);
     // Backend API call
     try {
-      const response=await fetch('https://autonomous-blog-app-9oron.ondigitalocean.app/api/users/WordpressUpdate',{
+      const response=await fetch(`${Root}/api/users/WordpressUpdate`,{
         method:"PUT",
         credentials:'include',
         headers:{"Content-type":"application/json"},
@@ -170,7 +171,7 @@ export  function SettingsPage({name,email,wordpressUrl,wordpressUsername,categor
     setIsSaving(true);
     // Backend API call
     try {
-      const response=await fetch('https://autonomous-blog-app-9oron.ondigitalocean.app/api/users/WordpressUpdate',{
+      const response=await fetch(`${Root}/api/users/WordpressUpdate`,{
         method:"PUT",
         credentials:'include',
         headers:{"Content-type":"application/json"},
@@ -197,7 +198,7 @@ export  function SettingsPage({name,email,wordpressUrl,wordpressUsername,categor
       console.log('Account deletion requested');
 
       try{
-        const response=await fetch('https://autonomous-blog-app-9oron.ondigitalocean.app/api/users/DeleteAccount',{
+        const response=await fetch(`${Root}/api/users/DeleteAccount`,{
           method:"DELETE",
           credentials:'include',
         })
@@ -219,7 +220,7 @@ export  function SettingsPage({name,email,wordpressUrl,wordpressUsername,categor
   const handleLogout =async () => {
     console.log('Logout');
     try{
-      const response=await fetch('https://autonomous-blog-app-9oron.ondigitalocean.app/api/auth/logout',{
+      const response=await fetch(`${Root}/api/auth/logout`,{
         method:"POST",
       })
       if(response.ok){
@@ -262,11 +263,11 @@ export  function SettingsPage({name,email,wordpressUrl,wordpressUsername,categor
 
         {/* Navigation */}
         <nav className="p-4 space-y-2">
-          <a href="#" className="flex items-center gap-3 px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-colors">
+          <a href="http://localhost:5173" className="flex items-center gap-3 px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-colors">
             <Home className="w-5 h-5" />
             <span>Ana Sayfa</span>
           </a>
-          <a href="#" className="flex items-center gap-3 px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-colors">
+          <a href="http://localhost:5173/BlogHistory" className="flex items-center gap-3 px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-colors">
             <FileText className="w-5 h-5" />
             <span>Blog Geçmişi</span>
           </a>

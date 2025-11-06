@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 
 import { useNavigate,useLocation } from "react-router-dom";
+import { Root } from '../config.js';
 
 export default function DashBoardPage({name,email,wordpressUrl,categories}) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -28,7 +29,7 @@ export default function DashBoardPage({name,email,wordpressUrl,categories}) {
 
   const fetchSummary=async ()=>{
     try{
-      const response=await fetch(`https://autonomous-blog-app-9oron.ondigitalocean.app/api/wordpress/summary?wordpressUrl=${wordpressUrl}`,{
+      const response=await fetch(`${Root}/api/wordpress/summary?wordpressUrl=${wordpressUrl}`,{
         method:"GET",
         headers:{
           "Content-type":"application/json",
@@ -100,7 +101,7 @@ export default function DashBoardPage({name,email,wordpressUrl,categories}) {
     
     // Backend API çağrısı
     try {
-      const response=await fetch('https://autonomous-blog-app-9oron.ondigitalocean.app/generate-and-post',{
+      const response=await fetch(`${Root}/generate-and-post`,{
         method:"POST",
         credentials:'include',
         headers:{
@@ -143,7 +144,7 @@ export default function DashBoardPage({name,email,wordpressUrl,categories}) {
 
   const handleLogout =async () => {
     try{
-      const response=await fetch('https://autonomous-blog-app-9oron.ondigitalocean.app/api/auth/logout',{
+      const response=await fetch(`${Root}/api/auth/logout`,{
         method:"POST",
       })
       if(response.ok){
@@ -218,7 +219,7 @@ export default function DashBoardPage({name,email,wordpressUrl,categories}) {
             <FileText className="w-5 h-5" />
             <span>Blog Geçmişi</span>
           </a>
-          <a href="#" className="flex items-center gap-3 px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-colors">
+          <a href="http://localhost:5173/settings" className="flex items-center gap-3 px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-colors">
             <Settings className="w-5 h-5" />
             <span>Ayarlar</span>
           </a>
@@ -391,7 +392,7 @@ export default function DashBoardPage({name,email,wordpressUrl,categories}) {
                 ))}
               </div>
 
-              <button className="w-full mt-4 py-2 text-sm text-gray-400 hover:text-white transition-colors">
+              <button onClick={()=>navigate('/BlogHistory')} className="w-full mt-4 py-2 text-sm text-gray-400 hover:text-white transition-colors cursor-pointer">
                 Tümünü Görüntüle →
               </button>
             </div>
