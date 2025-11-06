@@ -17,7 +17,7 @@ import { WordPressConnectionPage } from './WordpressConnection.jsx';
 import { BlogHistoryPage } from './BlogHistoryPage.jsx';
 import { SettingsPage } from './SettingsPage.jsx';
 
-import { useNavigate,useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -28,7 +28,6 @@ function App() {
   const [wordpressUsername,setWordpressUsername]=useState()
   const [categories,setCategories]=useState([])
   const [isLoading, setIsLoading] = useState(true);
-  const location = useLocation();
 
   const navigate=useNavigate()
 
@@ -50,7 +49,7 @@ function App() {
           setCategories(data.user.categories);
           setWordpressUsername(data.user.wordpressUser)
       } else if (response.status === 401) {
-        //navigate('/login');
+        navigate('/login');
       }
     } catch (error) {
       console.error("❌ User fetch error:", error);
@@ -61,7 +60,7 @@ function App() {
 
   useEffect(() => {
     fetchUserData();
-  }, [location.pathname,wordpressUrl]);
+  }, [wordpressUrl]);
   
   
   if (isLoading) return <p className="text-center mt-10">⏳ Loading user data...</p>;
