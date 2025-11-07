@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { 
   Settings, LogOut, User, Menu, X, Home, FileText,
   BookOpen, Lock, Mail, Globe, Key, Tag, Save, 
@@ -6,19 +6,23 @@ import {
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Root } from '../config.js';
+import { useUser } from '../context/UserContext.jsx';
 
-export  function SettingsPage({name,email,wordpressUrl,wordpressUsername,categories}) {
+export  function SettingsPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('account');
   const [isSaving, setIsSaving] = useState(false);
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showNewPasswordConfirm,setShowNewPasswordConfirm]=useState(false)
   const navigate=useNavigate()
+  const { user, loading } = useUser();
 
+  
   // Account Settings
   const [accountData, setAccountData] = useState({
-    name: name,
-    email: email,
+    name: user?.name,
+    email: user?.email,
     currentPassword: '',
     newPassword: '',
     confirmPassword: ''
@@ -26,19 +30,19 @@ export  function SettingsPage({name,email,wordpressUrl,wordpressUsername,categor
 
   // WordPress Settings
   const [wordpressData, setWordpressData] = useState({
-    url: wordpressUrl,
-    username: wordpressUsername,
+    url: user?.wordpressUrl,
+    username: user?.wordpressUser,
     applicationPassword: '••••••••••••',
-    categories: categories
+    categories: user?.categories
   });
 
   const [newCategory, setNewCategory] = useState('');
 
   // Notification Settings
   const [notifications, setNotifications] = useState({
-    emailOnPublish: true,
-    weeklyReport: true,
-    systemUpdates: false
+    emailOnPublish: user?.notifications.emailOnPublish,
+    weeklyReport: user?.notifications.weeklyReport,
+    systemUpdates: user?.notifications.systemUpdates
   });
 
   // Plan Info (read-only for now)
@@ -47,6 +51,43 @@ export  function SettingsPage({name,email,wordpressUrl,wordpressUsername,categor
     price: '$29/ay',
     features: ['Sınırsız Blog', 'Tüm Kategoriler', 'Öncelikli Destek']
   };
+
+
+
+  useEffect(() => {
+    if (loading || !user) return;
+  
+    setAccountData(prev => ({
+      name: prev.name || user.name || '',
+      email: prev.email || user.email || '',
+      currentPassword: '',
+      newPassword: '',
+      confirmPassword: ''
+    }));
+  
+    setWordpressData(prev => ({
+      ...prev,
+      url: prev.url || user.wordpressUrl || '',
+      username: prev.username || user.wordpressUser || '',
+      categories: prev.categories?.length ? prev.categories : user.categories || [],
+    }));
+  
+    setNotifications(prev => ({
+      emailOnPublish:
+        typeof prev.emailOnPublish === 'boolean'
+          ? prev.emailOnPublish
+          : user.notifications?.emailOnPublish || false,
+      weeklyReport:
+        typeof prev.weeklyReport === 'boolean'
+          ? prev.weeklyReport
+          : user.notifications?.weeklyReport || false,
+      systemUpdates:
+        typeof prev.systemUpdates === 'boolean'
+          ? prev.systemUpdates
+          : user.notifications?.systemUpdates || false,
+    }));
+  }, [loading, user]);
+  
 
   const handleAccountSave = async () => {
     setIsSaving(true);
@@ -242,10 +283,45 @@ export  function SettingsPage({name,email,wordpressUrl,wordpressUsername,categor
     { id: 'security', label: 'Güvenlik', icon: Shield }
   ];
 
+  
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-      
-      {/* Sidebar */}
+
+      {loading ? (
+        <div className="fixed inset-0 flex items-center justify-center z-50">
+        <div className="text-center">
+          {/* Animated Logo */}
+          <div className="relative mb-8">
+            <div className="w-32 h-32 border-4 border-purple-500/30 rounded-full"></div>
+            <div className="w-32 h-32 border-4 border-purple-500 border-t-transparent rounded-full animate-spin absolute top-0 left-0"></div>
+            <div className="w-24 h-24 border-4 border-blue-500/30 rounded-full absolute top-4 left-4"></div>
+            <div className="w-24 h-24 border-4 border-blue-500 border-t-transparent rounded-full animate-spin absolute top-4 left-4" style={{ animationDirection: 'reverse', animationDuration: '1.5s' }}></div>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <BookOpen className="w-12 h-12 text-white animate-pulse" />
+            </div>
+          </div>
+ 
+          {/* Loading Text */}
+          <h2 className="text-2xl font-bold text-white mb-3">AutoBlog Yükleniyor</h2>
+          <p className="text-gray-400 mb-6">Dashboard hazırlanıyor...</p>
+ 
+          {/* Animated Dots */}
+          <div className="flex items-center justify-center gap-2">
+            <div className="w-3 h-3 bg-purple-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+            <div className="w-3 h-3 bg-purple-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+            <div className="w-3 h-3 bg-purple-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+          </div>
+ 
+          {/* Loading Bar */}
+          <div className="mt-8 w-64 h-1.5 bg-slate-700 rounded-full overflow-hidden mx-auto">
+            <div className="h-full bg-gradient-to-r from-purple-500 to-blue-500 rounded-full animate-pulse"></div>
+          </div>
+        </div>
+      </div>
+      ):(
+        <>
+         {/* Sidebar */}
       <aside className={`fixed top-0 left-0 z-40 h-screen w-64 bg-slate-900/95 backdrop-blur-lg border-r border-white/10 transition-transform duration-300 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0`}>
         
         {/* Logo */}
@@ -390,6 +466,7 @@ export  function SettingsPage({name,email,wordpressUrl,wordpressUsername,categor
                             type={showCurrentPassword ? 'text' : 'password'}
                             value={accountData.currentPassword}
                             onChange={(e) => setAccountData({...accountData, currentPassword: e.target.value})}
+                            autoComplete="new-password"
                             className="block w-full px-4 py-3 pr-12 border border-gray-600 rounded-xl bg-white/5 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
                           />
                           <button
@@ -431,12 +508,27 @@ export  function SettingsPage({name,email,wordpressUrl,wordpressUsername,categor
 
                       <div>
                         <label className="block text-sm font-medium text-gray-200 mb-2">Yeni Şifre Tekrar</label>
+
+                        <div className='relative'>
                         <input
-                          type="password"
+                          type={showNewPasswordConfirm ? 'text':'password'}
                           value={accountData.confirmPassword}
                           onChange={(e) => setAccountData({...accountData, confirmPassword: e.target.value})}
                           className="block w-full px-4 py-3 border border-gray-600 rounded-xl bg-white/5 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
                         />
+                        <button
+                            type="button"
+                            onClick={() => setShowNewPasswordConfirm(!showNewPasswordConfirm)}
+                            className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                          >
+                            {showNewPasswordConfirm ? (
+                              <EyeOff className="h-5 w-5 text-gray-400 hover:text-gray-300" />
+                            ) : (
+                              <Eye className="h-5 w-5 text-gray-400 hover:text-gray-300" />
+                            )}
+                          </button>
+
+                        </div>
                       </div>
 
                       <button
@@ -687,6 +779,8 @@ export  function SettingsPage({name,email,wordpressUrl,wordpressUsername,categor
           className="fixed inset-0 bg-black/50 backdrop-blur-sm z-30 lg:hidden"
         ></div>
       )}
+        </>
+      ) }
     </div>
   );
 }

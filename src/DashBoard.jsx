@@ -5,10 +5,11 @@ import {
   BookOpen, Globe
 } from 'lucide-react';
 
-import { useNavigate,useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Root } from '../config.js';
+import { useUser } from '../context/UserContext.jsx';
 
-export default function DashBoardPage({name,email,wordpressUrl,categories}) {
+export default function DashBoardPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('');
   const [blogTitle, setBlogTitle] = useState('');
@@ -19,17 +20,17 @@ export default function DashBoardPage({name,email,wordpressUrl,categories}) {
   const [stats,setStats]=useState([])
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [generatedPost, setGeneratedPost] = useState(null);
-  const location=useLocation()
-
   const [error,setError]=useState()
 
   const navigate=useNavigate()
 
   const [isLoading,setIsLoading]=useState(true)
+  const { user, loading } = useUser();
+
 
   const fetchSummary=async ()=>{
     try{
-      const response=await fetch(`${Root}/api/wordpress/summary?wordpressUrl=${wordpressUrl}`,{
+      const response=await fetch(`${Root}/api/wordpress/summary?wordpressUrl=${user.wordpressUrl}`,{
         method:"GET",
         headers:{
           "Content-type":"application/json",
@@ -69,7 +70,7 @@ export default function DashBoardPage({name,email,wordpressUrl,categories}) {
           },
         ];
   
-        setUserCategories(categories)
+        setUserCategories(user.categories)
         setRecentPosts(data.recentPosts);
         setStats(formattedStats);
 
@@ -88,8 +89,10 @@ export default function DashBoardPage({name,email,wordpressUrl,categories}) {
   }
 
   useEffect(()=>{
-    fetchSummary()
-  },[location.pathname,wordpressUrl])
+    if(!loading){
+      fetchSummary()
+    }
+  },[user,loading])
   
   const handleGenerate = async () => {
     if (!selectedCategory) {
@@ -232,8 +235,8 @@ export default function DashBoardPage({name,email,wordpressUrl,categories}) {
               <User className="w-5 h-5 text-white" />
             </div>
             <div className="flex-1">
-              <p className="text-sm font-medium text-white">{name}</p>
-              <p className="text-xs text-gray-400">{email}</p>
+              <p className="text-sm font-medium text-white">{user.name}</p>
+              <p className="text-xs text-gray-400">{user.email}</p>
             </div>
           </div>
           <button onClick={handleLogout} className="flex items-center gap-3 px-4 py-2 text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-colors w-full cursor-pointer">
@@ -255,7 +258,7 @@ export default function DashBoardPage({name,email,wordpressUrl,categories}) {
             <div className="flex items-center gap-3">
               <div className="hidden sm:block">
                 <p className="text-gray-400 text-sm">Hoş geldiniz,</p>
-                <p className="text-white font-semibold">{name}</p>
+                <p className="text-white font-semibold">{user.name}</p>
               </div>
             </div>
           </div>
@@ -484,4 +487,12 @@ export default function DashBoardPage({name,email,wordpressUrl,categories}) {
 
     </div>
   );
-}
+
+
+
+ 
+  }
+
+
+
+  

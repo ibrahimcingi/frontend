@@ -7,7 +7,8 @@ import React, { useState,useEffect } from 'react';
 import DashBoardPage from './DashBoard.jsx';
 
 import ReactDOM from "react-dom/client";
-import { Root } from '../config.js';
+import { UserProvider } from '../context/UserContext.jsx';
+
 
 
 import { LoginPage } from './LoginPage.jsx';
@@ -17,72 +18,21 @@ import { WordPressConnectionPage } from './WordpressConnection.jsx';
 import { BlogHistoryPage } from './BlogHistoryPage.jsx';
 import { SettingsPage } from './SettingsPage.jsx';
 
-import { useNavigate } from "react-router-dom";
+
 
 
 
 function App() {
-  const [email,setEmail]=useState()
-  const [name,setName]=useState()
-  const [wordpressUrl,setWordpressUrl]=useState()
-  const [wordpressUsername,setWordpressUsername]=useState()
-  const [categories,setCategories]=useState([])
-  const [isLoading, setIsLoading] = useState(true);
-
-  const navigate=useNavigate()
-
-  const fetchUserData = async () => {
-    try {
-      const response = await fetch(`${Root}/api/users/me`, {
-        method: "GET",
-        credentials: 'include',
-        headers: { "Content-Type": "application/json" },
-      });
-
-      const data = await response.json();
-
-      if (response.ok && data.user) {
-        console.log('✅ Successfully fetched user data');
-          setEmail(data.user.email);
-          setName(data.user.name);
-          setWordpressUrl(data.user.wordpressUrl);
-          setCategories(data.user.categories);
-          setWordpressUsername(data.user.wordpressUser)
-      } else if (response.status === 401) {
-        navigate('/login');
-      }
-    } catch (error) {
-      console.error("❌ User fetch error:", error);
-    }finally{
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchUserData();
-  }, [wordpressUrl]);
   
-  
-  if (isLoading) return <p className="text-center mt-10">⏳ Loading user data...</p>;
-
   return (
     <Routes>
       <Route path="/login" element={<LoginPage  />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/resetPassword" element={<ForgotPasswordPage />} />
       <Route path="/wordpressConnection" element={<WordPressConnectionPage />} />
-      <Route path="/BlogHistory" element={<BlogHistoryPage wordpressUrl={wordpressUrl} Usercategories={categories} name={name} email={email} />} />
-      <Route path="/settings" element={<SettingsPage wordpressUrl={wordpressUrl} wordpressUsername={wordpressUsername} categories={categories} name={name} email={email} />} />
-      <Route
-        path="/"
-        element={
-          <DashBoardPage
-            name={name}
-            email={email}
-            wordpressUrl={wordpressUrl}
-            categories={categories}
-          />
-        }
+      <Route path="/BlogHistory" element={<BlogHistoryPage  />} />
+      <Route path="/settings" element={<SettingsPage  />} />
+      <Route path="/"element={ <DashBoardPage />}
       />
     </Routes>
   );
@@ -94,7 +44,9 @@ function App() {
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
   <BrowserRouter>
-    <App /> 
+  <UserProvider>
+    <App />
+  </UserProvider>
   </BrowserRouter>
   </React.StrictMode>
 );

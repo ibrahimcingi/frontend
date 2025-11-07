@@ -7,20 +7,23 @@ import {
 
 import { useNavigate } from "react-router-dom";
 import { Root } from '../config.js';
+import { useUser } from '../context/UserContext.jsx';
 
-export  function BlogHistoryPage({wordpressUrl,Usercategories,name,email}) {
+export  function BlogHistoryPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [blogPosts,setBlogPosts]=useState([]);
   const [categories,setCategories]=useState()
   const [isLoading, setIsLoading] = useState(true);
+  const { user, loading } = useUser();
+
 
   const navigate=useNavigate()
 
   const fetchBlogPosts=async ()=>{
     try{
-      const response=await fetch(`${Root}/api/wordpress/BlogPosts?wordpressUrl=${wordpressUrl}`,{
+      const response=await fetch(`${Root}/api/wordpress/BlogPosts?wordpressUrl=${user.wordpressUrl}`,{
         method:"GET",
         headers:{"Content-type":"application/json"}
       })
@@ -40,9 +43,11 @@ export  function BlogHistoryPage({wordpressUrl,Usercategories,name,email}) {
   }
 
   useEffect(()=>{
-    setCategories(Usercategories)
-    fetchBlogPosts()
-  },[isLoading])
+    if(!loading){
+      setCategories(user.categories)
+      fetchBlogPosts()
+    }
+  },[isLoading,loading])
 
 
 
@@ -155,8 +160,8 @@ export  function BlogHistoryPage({wordpressUrl,Usercategories,name,email}) {
               <User className="w-5 h-5 text-white" />
             </div>
             <div className="flex-1">
-              <p className="text-sm font-medium text-white">{name}</p>
-              <p className="text-xs text-gray-400">{email}</p>
+              <p className="text-sm font-medium text-white">{user.name}</p>
+              <p className="text-xs text-gray-400">{user.email}</p>
             </div>
           </div>
           <button onClick={handleLogout} className="flex items-center gap-3 px-4 py-2 text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-colors w-full cursor-pointer">
