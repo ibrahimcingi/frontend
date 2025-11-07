@@ -15,6 +15,9 @@ export  function SettingsPage() {
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showNewPasswordConfirm,setShowNewPasswordConfirm]=useState(false)
+  const [showSuccessMessage,setShowSuccessMessage]=useState(false)
+  const [successMessage, setSuccessMessage] = useState(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const navigate=useNavigate()
   const { user, loading } = useUser();
 
@@ -32,7 +35,7 @@ export  function SettingsPage() {
   const [wordpressData, setWordpressData] = useState({
     url: user?.wordpressUrl,
     username: user?.wordpressUser,
-    applicationPassword: '••••••••••••',
+    applicationPassword: '',
     categories: user?.categories
   });
 
@@ -51,6 +54,16 @@ export  function SettingsPage() {
     price: '$29/ay',
     features: ['Sınırsız Blog', 'Tüm Kategoriler', 'Öncelikli Destek']
   };
+
+  useEffect(() => {
+    if (showSuccessMessage) {
+      const timer = setTimeout(() => {
+        setShowSuccessMessage(false);
+      }, 5000); // animasyon süresi kadar (5 saniye)
+  
+      return () => clearTimeout(timer);
+    }
+  }, [showSuccessMessage]);
 
 
 
@@ -106,7 +119,9 @@ export  function SettingsPage() {
       console.log('Account data saved:', accountData);
       setTimeout(() => {
         setIsSaving(false);
-        alert('Hesap bilgileri güncellendi!');
+        setShowSuccessMessage(true)
+        setSuccessMessage('Hesap bilgileri başarıyla güncellendi')
+        
       }, 1000);
       }else if(response.status===401){
         navigate('/login')
@@ -147,7 +162,8 @@ export  function SettingsPage() {
             newPassword: '',
             confirmPassword: ''
           });
-          alert('Şifre başarıyla değiştirildi!');
+          setShowSuccessMessage(true)
+          setSuccessMessage('Şifreniz başarıyla değiştirildi')
       }, 1000);
 
       }else if(response.status===401){
@@ -179,7 +195,8 @@ export  function SettingsPage() {
         console.log('WordPress data saved:', wordpressData);
       setTimeout(() => {
         setIsSaving(false);
-        alert('WordPress ayarları güncellendi!');
+        setShowSuccessMessage(true)
+        setSuccessMessage('Wordpress bilgileri başarıyla güncellendi')
       }, 1000);
     }else if(response.status===401){
       navigate('/login')
@@ -223,7 +240,8 @@ export  function SettingsPage() {
         console.log('Notifications saved:', notifications);
         setTimeout(() => {
           setIsSaving(false);
-          alert('Bildirim ayarları güncellendi!');
+          setShowSuccessMessage(true)
+          setSuccessMessage('Bildirim ayarları başarıyla güncellendi')
         }, 1000);
       }else if(response.status===401){
         navigate('/login')
@@ -234,7 +252,14 @@ export  function SettingsPage() {
     }
   };
 
-  const handleDeleteAccount =async  () => {
+
+  const handleDeleteAccount = () => {
+    setShowDeleteModal(true);
+  };
+
+  const confirmDeleteAccount = async () => {
+    console.log('Account deletion confirmed');
+    setShowDeleteModal(false);
     if (confirm('Hesabınızı silmek istediğinize emin misiniz? Bu işlem geri alınamaz!')) {
       console.log('Account deletion requested');
 
@@ -247,7 +272,7 @@ export  function SettingsPage() {
           setTimeout(() => {
             console.log('account deleted')
             alert('Hesabınız Başarıyla Silindi!');
-            navigate('/register')
+            navigate('/login')
           }, 1000);
         }
       }catch(error){
@@ -779,6 +804,129 @@ export  function SettingsPage() {
           className="fixed inset-0 bg-black/50 backdrop-blur-sm z-30 lg:hidden"
         ></div>
       )}
+      {/* Success Toast Notification */}
+      {showSuccessMessage && (
+        <div className="fixed top-6 right-6 z-50 animate-slide-in">
+          <div className="bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-xl shadow-2xl p-4 pr-12 min-w-[320px] max-w-md border border-green-400/30 backdrop-blur-lg">
+            <div className="flex items-start gap-3">
+              {/* Success Icon with Animation */}
+              <div className="flex-shrink-0 w-10 h-10 bg-white/20 rounded-full flex items-center justify-center animate-bounce-slow">
+                <CheckCircle className="w-6 h-6 text-white" />
+              </div>
+              
+              {/* Content */}
+              <div className="flex-1">
+                <h4 className="font-semibold text-sm mb-1">Başarılı!</h4>
+                <p className="text-sm text-green-50">{successMessage}</p>
+              </div>
+
+              {/* Close Button */}
+              <button
+                onClick={() =>{
+                  setShowSuccessMessage(false)
+                } }
+                className="absolute top-3 right-3 text-white/80 hover:text-white transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Progress Bar */}
+            <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/20 rounded-b-xl overflow-hidden">
+              <div className="h-full bg-white/60 animate-progress"></div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Account Confirmation Modal */}
+      {showDeleteModal && (
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fade-in">
+          <div className="bg-slate-900 border border-red-500/30 rounded-2xl p-8 max-w-md w-full shadow-2xl animate-scale-in">
+            
+            {/* Warning Icon */}
+            <div className="flex justify-center mb-6">
+              <div className="relative">
+                <div className="w-20 h-20 bg-red-500/20 rounded-full flex items-center justify-center">
+                  <svg className="w-12 h-12 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                  </svg>
+                </div>
+                {/* Pulse effect */}
+                <div className="absolute inset-0 w-20 h-20 bg-red-500/30 rounded-full animate-ping"></div>
+              </div>
+            </div>
+
+            {/* Title & Description */}
+            <h3 className="text-2xl font-bold text-white text-center mb-3">
+              Hesabı Sil
+            </h3>
+            <p className="text-gray-400 text-center mb-6">
+              Hesabınızı silmek istediğinize emin misiniz? 
+            </p>
+
+            {/* Warning List */}
+            <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-4 mb-6">
+              <p className="text-red-400 font-semibold mb-3 text-sm">⚠️ Bu işlem geri alınamaz ve şunlar silinecek:</p>
+              <ul className="space-y-2 text-sm text-red-300">
+                <li className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 bg-red-400 rounded-full"></span>
+                  Tüm blog geçmişiniz
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 bg-red-400 rounded-full"></span>
+                  WordPress bağlantı bilgileriniz
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 bg-red-400 rounded-full"></span>
+                  Tüm kişisel verileriniz
+                </li>
+              </ul>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex gap-3">
+              <button
+                onClick={() => setShowDeleteModal(false)}
+                className="flex-1 bg-white/5 hover:bg-white/10 text-white font-semibold py-3 px-4 rounded-xl transition-all"
+              >
+                İptal
+              </button>
+              <button
+                onClick={confirmDeleteAccount}
+                className="flex-1 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-semibold py-3 px-4 rounded-xl transition-all flex items-center justify-center gap-2"
+              >
+                <Trash2 className="w-4 h-4" />
+                Hesabı Sil
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+<style>{`
+  @keyframes slide-in {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+
+  @keyframes bounce-slow {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+  }
+
+  @keyframes progress {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(0); }
+  }
+
+  .animate-slide-in { animation: slide-in 0.3s ease-out; }
+  .animate-bounce-slow { animation: bounce-slow 2s ease-in-out infinite; }
+  .animate-progress { animation: progress 5s linear forwards; }
+`}</style>
+
+
+     
         </>
       ) }
     </div>

@@ -17,9 +17,8 @@ export function UserProvider({ children }) {
     const data = await res.json();
     if(res.ok){
       setUser(data.user)
+      
       setLoading(false);
-    }else if(res.status===401){
-      navigate('/login')
     }
     }catch(error){
       console.error("❌ User fetch error:", error);

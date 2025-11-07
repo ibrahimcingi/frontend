@@ -32,6 +32,7 @@ export default function DashBoardPage() {
     try{
       const response=await fetch(`${Root}/api/wordpress/summary?wordpressUrl=${user.wordpressUrl}`,{
         method:"GET",
+        credentials:'include',
         headers:{
           "Content-type":"application/json",
         }
@@ -149,7 +150,14 @@ export default function DashBoardPage() {
         }, 3000);
   
 
+      }else{
+        console.log(response.json())
+        setIsGenerating(false);
+
       }
+       
+        
+      
     } catch (error) {
       console.error('Generate error:', error);
       setIsGenerating(false);
