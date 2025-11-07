@@ -74,6 +74,7 @@ export default function DashBoardPage() {
         setRecentPosts(data.recentPosts);
         setStats(formattedStats);
 
+
         setIsLoading(false)
       }else{
         console.error('Something went wrong'); 
@@ -133,6 +134,16 @@ export default function DashBoardPage() {
           
           setGeneratedPost(postData);
           setShowSuccessModal(true);
+
+          setFormattedStats(prev =>
+            prev.map(item => {
+              if (item.label === "Toplam Blog" || item.label === "Bu Ay") {
+                return { ...item, value: item.value + 1 };
+              }
+              return item;
+            })
+          );
+          
           setSelectedCategory('');
           setBlogTitle('');
         }, 3000);
