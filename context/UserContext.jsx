@@ -11,9 +11,12 @@ const UserContext = createContext();
 export function UserProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [ready,setReady]=useState(false)
+
   const navigate=useNavigate()
 
   const fetchUser = async () => {
+    if(!ready) return
     try{
       const res = await fetch(`${Root}/api/users/me`, { credentials: "include" });
     const data = await res.json();
@@ -28,10 +31,10 @@ export function UserProvider({ children }) {
     } 
   };
 
-  useEffect(() => { fetchUser(); }, []);
+  useEffect(() => { fetchUser(); }, [ready]);
 
   return (
-    <UserContext.Provider value={{ user, setUser,loading,setLoading }}>
+    <UserContext.Provider value={{ user, setUser,loading,setLoading,setReady }}>
       {children}
     </UserContext.Provider>
   );
