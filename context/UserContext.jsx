@@ -11,6 +11,7 @@ const UserContext = createContext();
 export function UserProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const navigate=useNavigate()
 
   const fetchUser = async () => {
     try{
@@ -19,6 +20,8 @@ export function UserProvider({ children }) {
     if(res.ok){
       setUser(data.user)
       setLoading(false);
+    }else if(res.status===401){
+      navigate('/login')
     }
     }catch(error){
       console.error("❌ User fetch error:", error);

@@ -75,7 +75,6 @@ export default function DashBoardPage() {
         setRecentPosts(data.recentPosts);
         setStats(formattedStats);
 
-
         setIsLoading(false)
       }else{
         console.error('Something went wrong'); 
