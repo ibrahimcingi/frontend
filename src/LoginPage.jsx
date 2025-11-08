@@ -179,7 +179,7 @@ export function LoginPage() {
                   Beni Hatırla
                 </label>
               </div>
-              <a href="http://localhost:5173/resetPassword" className="text-sm font-medium text-purple-400 hover:text-purple-300 cursor-pointer">
+              <a href="https://haveai.online/resetPassword" className="text-sm font-medium text-purple-400 hover:text-purple-300 cursor-pointer">
                 Şifremi Unuttum
               </a>
             </div>
@@ -205,7 +205,7 @@ export function LoginPage() {
           <div className="mt-6 text-center">
             <p className="text-gray-300">
               Hesabınız yok mu?{' '}
-              <a href="http://localhost:5173/register" className="font-semibold text-purple-400 hover:text-purple-300 cursor-pointer">
+              <a href="https://haveai.online/register" className="font-semibold text-purple-400 hover:text-purple-300 cursor-pointer">
                 Kayıt Ol
               </a>
             </p>

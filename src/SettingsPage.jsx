@@ -365,11 +365,11 @@ export  function SettingsPage() {
 
         {/* Navigation */}
         <nav className="p-4 space-y-2">
-          <a href="http://localhost:5173" className="flex items-center gap-3 px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-colors">
+          <a href="https://haveai.online" className="flex items-center gap-3 px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-colors">
             <Home className="w-5 h-5" />
             <span>Ana Sayfa</span>
           </a>
-          <a href="http://localhost:5173/BlogHistory" className="flex items-center gap-3 px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-colors">
+          <a href="https://haveai.online/BlogHistory" className="flex items-center gap-3 px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-colors">
             <FileText className="w-5 h-5" />
             <span>Blog Geçmişi</span>
           </a>

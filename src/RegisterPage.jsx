@@ -255,7 +255,7 @@ export  function RegisterPage() {
           <div className="mt-6 text-center">
             <p className="text-gray-300">
               Zaten hesabınız var mı?{' '}
-              <a href="http://localhost:5173/login" className="font-semibold text-purple-400 hover:text-purple-300 cursor-pointer">
+              <a href="https://haveai.online/login" className="font-semibold text-purple-400 hover:text-purple-300 cursor-pointer">
                 Giriş Yap
               </a>
             </p>
