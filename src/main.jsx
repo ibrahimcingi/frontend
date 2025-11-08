@@ -27,8 +27,15 @@ function App() {
   return (
     <Routes>
       {/* Public routes */}
-      
-      <Route path="/login" element={<LoginPage />} />
+
+      <Route
+        path="/login"
+        element={
+          <UserProvider>
+              <LoginPage />
+          </UserProvider>
+        }
+      />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/resetPassword" element={<ForgotPasswordPage />} />
 
