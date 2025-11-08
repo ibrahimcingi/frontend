@@ -16,7 +16,6 @@ export function UserProvider({ children }) {
   const navigate=useNavigate()
 
   const fetchUser = async () => {
-    if(!ready){
       try{
         const res = await fetch(`${Root}/api/users/me`, { credentials: "include" });
       const data = await res.json();
@@ -29,7 +28,7 @@ export function UserProvider({ children }) {
       }catch(error){
         console.error("❌ User fetch error:", error);
       } 
-    };
+    
 
     }
    
