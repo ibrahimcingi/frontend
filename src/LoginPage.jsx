@@ -12,7 +12,6 @@ export function LoginPage() {
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [rememberMe,setRememberMe]=useState(false)
-  c;
 
   const navigate=useNavigate()
 
