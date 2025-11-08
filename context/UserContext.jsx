@@ -1,7 +1,9 @@
 // context/UserContext.js
 import { createContext, useContext, useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { Root } from "../config.js";
+import { useNavigate } from "react-router-dom";
+
+
 
 
 const UserContext = createContext();
@@ -9,7 +11,6 @@ const UserContext = createContext();
 export function UserProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const navigate=useNavigate()
 
   const fetchUser = async () => {
     try{
@@ -17,7 +18,6 @@ export function UserProvider({ children }) {
     const data = await res.json();
     if(res.ok){
       setUser(data.user)
-      
       setLoading(false);
     }
     }catch(error){
@@ -28,7 +28,7 @@ export function UserProvider({ children }) {
   useEffect(() => { fetchUser(); }, []);
 
   return (
-    <UserContext.Provider value={{ user, setUser, loading }}>
+    <UserContext.Provider value={{ user, setUser,loading,setLoading }}>
       {children}
     </UserContext.Provider>
   );

@@ -25,7 +25,7 @@ export default function DashBoardPage() {
   const navigate=useNavigate()
 
   const [isLoading,setIsLoading]=useState(true)
-  const { user, loading } = useUser();
+  const { user,loading } = useUser();
 
 
   const fetchSummary=async ()=>{
@@ -168,6 +168,7 @@ export default function DashBoardPage() {
     try{
       const response=await fetch(`${Root}/api/auth/logout`,{
         method:"POST",
+        credentials:"include"
       })
       if(response.ok){
         console.log('Logout');

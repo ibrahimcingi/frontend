@@ -25,10 +25,13 @@ export  function BlogHistoryPage() {
     try{
       const response=await fetch(`${Root}/api/wordpress/BlogPosts?wordpressUrl=${user.wordpressUrl}`,{
         method:"GET",
-        headers:{"Content-type":"application/json"}
+        headers:{"Content-type":"application/json"},
+        credentials:'include'
       })
 
       const data=await response.json()
+      
+
   
       if(response.ok && data.BlogPosts){
         setBlogPosts(data.BlogPosts)
@@ -37,9 +40,7 @@ export  function BlogHistoryPage() {
 
     }catch(error){
       console.error("Fetch error:", error);
-
     }
-   
   }
 
   useEffect(()=>{
@@ -62,6 +63,7 @@ export  function BlogHistoryPage() {
     try{
       const response=await fetch(`${Root}/api/auth/logout`,{
         method:"POST",
+        credentials:"include"
       })
       if(response.ok){
         console.log('Logout');

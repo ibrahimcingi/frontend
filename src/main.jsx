@@ -17,36 +17,77 @@ import { ForgotPasswordPage } from './ResetPassword.jsx';
 import { WordPressConnectionPage } from './WordpressConnection.jsx';
 import { BlogHistoryPage } from './BlogHistoryPage.jsx';
 import { SettingsPage } from './SettingsPage.jsx';
+import ProtectedRoute from './ProtectedRoute.jsx';
 
 
 
 
 
 function App() {
-  
   return (
     <Routes>
-      <Route path="/login" element={<LoginPage  />} />
+      {/* Public routes */}
+      <Route
+  path="/login"
+  element={
+    <UserProvider>
+      <LoginPage />
+    </UserProvider>
+  }
+/>
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/resetPassword" element={<ForgotPasswordPage />} />
-      <Route path="/wordpressConnection" element={<WordPressConnectionPage />} />
-      <Route path="/BlogHistory" element={<BlogHistoryPage  />} />
-      <Route path="/settings" element={<SettingsPage  />} />
-      <Route path="/"element={ <DashBoardPage />}
+
+      {/* Protected routes */}
+
+      <Route
+        path="/"
+        element={
+          <UserProvider>
+            <ProtectedRoute>
+              <DashBoardPage />
+            </ProtectedRoute>
+          </UserProvider>
+        }
+      />
+      <Route
+        path="/wordpressConnection"
+        element={
+          <UserProvider>
+            <ProtectedRoute>
+              <WordPressConnectionPage />
+            </ProtectedRoute>
+          </UserProvider>
+        }
+      />
+      <Route
+        path="/BlogHistory"
+        element={
+          <UserProvider>
+            <ProtectedRoute>
+              <BlogHistoryPage />
+            </ProtectedRoute>
+          </UserProvider>
+        }
+      />
+      <Route
+        path="/settings"
+        element={
+          <UserProvider>
+            <ProtectedRoute>
+              <SettingsPage />
+            </ProtectedRoute>
+          </UserProvider>
+        }
       />
     </Routes>
   );
-
-  
 }
-
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-  <BrowserRouter>
-  <UserProvider>
-    <App />
-  </UserProvider>
-  </BrowserRouter>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </React.StrictMode>
 );

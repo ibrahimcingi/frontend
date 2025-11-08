@@ -288,6 +288,7 @@ export  function SettingsPage() {
     try{
       const response=await fetch(`${Root}/api/auth/logout`,{
         method:"POST",
+        credentials:"include"
       })
       if(response.ok){
         console.log('Logout');

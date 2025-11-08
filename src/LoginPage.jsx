@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Eye, EyeOff, Mail, Lock } from 'lucide-react';
 import { useNavigate } from "react-router-dom";
 import { Root } from '../config.js';
+import { useUser } from '../context/UserContext.jsx';
 
 
 
@@ -11,8 +12,16 @@ export function LoginPage() {
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [rememberMe,setRememberMe]=useState(false)
+  const {user,setUser } = useUser();
 
   const navigate=useNavigate()
+
+  useEffect(() => {
+    if (user) {
+      if (!user.wordpressUrl) navigate('/wordpressConnection');
+      else navigate('/');
+    }
+  }, [user]); // sadece user güncellendiğinde çalışır
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -21,7 +30,7 @@ export function LoginPage() {
     try {
       const res = await fetch(`${Root}/api/auth/login`, {
         method: "POST",
-        credentials: "include", // cookie için gerekli
+        credentials: "include", 
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password,rememberMe }),
       });
@@ -30,12 +39,11 @@ export function LoginPage() {
       console.log("Login response:", data);
   
       if (res.ok && data.token) {
-
-        console.log("✅ Logged in!");
-        if(!data.user.wordpressUrl){
-          navigate('/wordpressConnection')
-        }
-        navigate('/') 
+        setTimeout(()=>{
+          setUser(data.user)
+          console.log("✅ Logged in!");
+        },300)
+       
       } else {
         console.error("❌ Login failed:", data.message || data.error);
         alert("Giriş başarısız! Email veya şifre hatalı olabilir.");
