@@ -240,7 +240,7 @@ export  function PlansPage() {
           <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-purple-500/20 border border-purple-500/30 rounded-full text-purple-300 text-sm font-semibold mb-6">
               <Sparkles className="w-4 h-4" />
-              Mevcut Planınız: {currentPlan}
+              Mevcut Planınız: {currentPlan.name}
             </div>
             <h2 className="text-4xl font-bold text-white mb-4">
               Doğru planı seçin
@@ -283,7 +283,7 @@ export  function PlansPage() {
           <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto mb-12">
             {plans.map((plan) => {
               const PlanIcon = plan.icon;
-              const isCurrentPlan = currentPlan === plan.name;
+              const isCurrentPlan = currentPlan.name === plan.name;
               
               return (
                 <div
@@ -375,7 +375,7 @@ export  function PlansPage() {
           </div>
 
           {/* Selected Plan Checkout */}
-          {selectedPlan && selectedPlan !== plans.find(p => p.name === currentPlan)?.id && (
+          {selectedPlan && selectedPlan !== plans.find(p => p.name === currentPlan.name)?.id && (
             <div className="max-w-2xl mx-auto bg-white/5 backdrop-blur-lg border border-purple-500/30 rounded-2xl p-8 animate-fade-in">
               <div className="flex items-center justify-between mb-6">
                 <div>
