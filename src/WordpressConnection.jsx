@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Globe, Key, Tag, CheckCircle, AlertCircle, Info, ExternalLink,Eye,EyeOff } from 'lucide-react';
 import { useNavigate } from "react-router-dom";
 import { Root } from '../config.js';
+import { useUser } from '../context/UserContext.jsx';
 
 export  function WordPressConnectionPage() {
   const [formData, setFormData] = useState({
@@ -13,6 +14,8 @@ export  function WordPressConnectionPage() {
   const [categoryInput, setCategoryInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [connectionStatus, setConnectionStatus] = useState(null); // null, 'success', 'error'
+
+  const {setReady}=useUser()
 
   
   const [showPassword,setShowPassword]=useState(false)
@@ -99,7 +102,8 @@ export  function WordPressConnectionPage() {
       console.log('Response data:', data);
 
       if(response.ok){
-        setTimeout(() => {
+        setTimeout(async () => {
+          await setReady(true)
           setIsLoading(false);
           alert('WordPress bağlantısı başarıyla kaydedildi!');
           navigate('/')
@@ -369,7 +373,7 @@ export  function WordPressConnectionPage() {
 
         {/* Footer */}
         <p className="text-center text-gray-400 text-sm mt-6">
-          © 2025 Blog. Tüm hakları saklıdır.
+          © 2025 haveAI. Tüm hakları saklıdır.
         </p>
       </div>
     </div>

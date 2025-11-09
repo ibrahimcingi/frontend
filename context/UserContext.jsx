@@ -31,9 +31,11 @@ export function UserProvider({ children }) {
     
 
     }
-   
-
-  useEffect(() => { fetchUser(); }, [ready]);
+  useEffect(() => {
+    if(ready){
+      fetchUser();
+    }
+     }, [ready]);
 
   return (
     <UserContext.Provider value={{ user, setUser,loading,setLoading,setReady }}>
