@@ -381,7 +381,7 @@ export  function PlansPage() {
                 <div>
                   <h3 className="text-xl font-bold text-white mb-1">Seçilen Plan</h3>
                   <p className="text-gray-400">
-                    {plans.find(p => p.id === selectedPlan)?.name} - {getPriceDisplay(plans.find(p => p.id === selectedPlan))}
+                    {plans.find(p => p.id === selectedPlan)?.name} - {getPriceDisplay(plans.find(p => p.id === selectedPlan.id))}
                   </p>
                 </div>
                 <button
