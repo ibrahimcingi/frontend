@@ -89,7 +89,7 @@ function App() {
         element={
           <UserProvider>
             <ProtectedRoute>
-              <DashBoardPage />
+              <PlansPage />
             </ProtectedRoute>
           </UserProvider>
         }

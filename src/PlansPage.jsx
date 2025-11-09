@@ -1,18 +1,37 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { 
   Settings, LogOut, User, Menu, X, Home, FileText,
   BookOpen, Check, Sparkles, Zap, Crown, ArrowRight,
   CreditCard
 } from 'lucide-react';
 import { Root } from '../config';
+import { useUser } from '../context/UserContext';
 
 export  function PlansPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [billingCycle, setBillingCycle] = useState('monthly'); // 'monthly' or 'yearly'
   const [selectedPlan, setSelectedPlan] = useState(null);
+  const [showSuccessMessage,setShowSuccessMessage]=useState(false)
+  const [currentPlan,setCurrentPlan]=useState()
+
+  const {user,loading}=useUser()
+
+  useEffect(()=>{
+    if(showSuccessMessage){
+      setTimeout(()=>{
+        setShowSuccessMessage(false)
+        alert('Ödeme sayfasına yönlendiriliyorsunuz...');
+        //redirect to payment page
+      },5000)
+    }
+  },[showSuccessMessage])
 
   // Kullanıcının mevcut planı (backend'den gelecek)
-  const currentPlan = 'Pro'; // 'Free', 'Pro', 'Enterprise'
+  useEffect(()=>{
+    if(!loading){
+      setCurrentPlan(user.currentPlan)
+    }
+  },[loading])
 
   const plans = [
     {
@@ -76,21 +95,32 @@ export  function PlansPage() {
 
   const handleSelectPlan = (planId) => {
     setSelectedPlan(planId);
-    // Backend API call
-    console.log('Selected plan:', planId, 'Billing cycle:', billingCycle);
   };
 
-  const handleUpgrade = () => {
-    if (!selectedPlan) return;
+  const handleUpgrade = async () => {
+    if (!selectedPlan && selectedPlan ==='free') return;
+
+    try{
+      const response=await fetch(`${Root}/api/users/PlanUpdate`,{
+        method:"PUT",
+        credentials:'include',
+        headers:{
+          "Content-type":"application/json"
+        },
+        body:JSON.stringify({
+          SelectedPlan:selectedPlan,
+          billingCycle:billingCycle
+        })
+      })
+      if(response.ok){
+        console.log('Selected plan:', planId, 'Billing cycle:', billingCycle);
+      }  
+
+    }catch(error){
+      //again consider showing a toast
+      console.error(error)
+    }
     
-    // Backend API call
-    // await fetch('YOUR_BACKEND_URL/api/subscription/upgrade', {
-    //   method: 'POST',
-    //   body: JSON.stringify({ plan: selectedPlan, billing: billingCycle })
-    // });
-    
-    console.log('Upgrading to:', selectedPlan, billingCycle);
-    alert('Ödeme sayfasına yönlendiriliyorsunuz...');
   };
 
   const handleLogout =async () => {
@@ -399,6 +429,63 @@ export  function PlansPage() {
           className="fixed inset-0 bg-black/50 backdrop-blur-sm z-30 lg:hidden"
         ></div>
       )}
+
+      {/* Success Toast Notification */}
+      {showSuccessMessage && (
+        <div className="fixed top-6 right-6 z-50 animate-slide-in">
+          <div className="bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-xl shadow-2xl p-4 pr-12 min-w-[320px] max-w-md border border-green-400/30 backdrop-blur-lg">
+            <div className="flex items-start gap-3">
+              {/* Success Icon with Animation */}
+              <div className="flex-shrink-0 w-10 h-10 bg-white/20 rounded-full flex items-center justify-center animate-bounce-slow">
+                <CheckCircle className="w-6 h-6 text-white" />
+              </div>
+              
+              {/* Content */}
+              <div className="flex-1">
+                <h4 className="font-semibold text-sm mb-1">Başarılı!</h4>
+                <p className="text-sm text-green-50">Plan seçimi başarılı,Ödeme sayfasına yönlendiriliyorsunuz</p>
+              </div>
+
+              {/* Close Button */}
+              <button
+                onClick={() =>{
+                  setShowSuccessMessage(false)
+                } }
+                className="absolute top-3 right-3 text-white/80 hover:text-white transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Progress Bar */}
+            <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/20 rounded-b-xl overflow-hidden">
+              <div className="h-full bg-white/60 animate-progress"></div>
+            </div>
+          </div>
+        </div>
+      )}
+
+<style>{`
+  @keyframes slide-in {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+
+  @keyframes bounce-slow {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+  }
+
+  @keyframes progress {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(0); }
+  }
+
+  .animate-slide-in { animation: slide-in 0.3s ease-out; }
+  .animate-bounce-slow { animation: bounce-slow 2s ease-in-out infinite; }
+  .animate-progress { animation: progress 5s linear forwards; }
+`}</style>
+
     </div>
   );
 }
