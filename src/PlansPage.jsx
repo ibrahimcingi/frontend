@@ -12,7 +12,7 @@ export  function PlansPage() {
   const [billingCycle, setBillingCycle] = useState('monthly'); // 'monthly' or 'yearly'
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [showSuccessMessage,setShowSuccessMessage]=useState(false)
-  const [currentPlan,setCurrentPlan]=useState()
+  const [currentPlan,setCurrentPlan]=useState({})
 
   const {user,loading}=useUser()
 
@@ -94,7 +94,9 @@ export  function PlansPage() {
   ];
 
   const handleSelectPlan = (planId) => {
-    setSelectedPlan(planId);
+    const plan = plans.find(p => p.id === planId)
+    setSelectedPlan(plan);
+    console.log('selected plan!',plan)
   };
 
   const handleUpgrade = async () => {
@@ -113,7 +115,7 @@ export  function PlansPage() {
         })
       })
       if(response.ok){
-        console.log('Selected plan:', planId, 'Billing cycle:', billingCycle);
+        console.log('Selected plan:', selectedPlan, 'Billing cycle:', billingCycle);
       }  
 
     }catch(error){
@@ -177,15 +179,15 @@ export  function PlansPage() {
 
         {/* Navigation */}
         <nav className="p-4 space-y-2">
-          <a href="#" className="flex items-center gap-3 px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-colors">
+          <a href="https://haveai.online" className="flex items-center gap-3 px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-colors">
             <Home className="w-5 h-5" />
             <span>Ana Sayfa</span>
           </a>
-          <a href="#" className="flex items-center gap-3 px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-colors">
+          <a href="https://haveai.online/BlogHistory" className="flex items-center gap-3 px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-colors">
             <FileText className="w-5 h-5" />
             <span>Blog Geçmişi</span>
           </a>
-          <a href="#" className="flex items-center gap-3 px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-colors">
+          <a href="https://haveai.online/settings" className="flex items-center gap-3 px-4 py-3 text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-colors">
             <Settings className="w-5 h-5" />
             <span>Ayarlar</span>
           </a>
@@ -202,8 +204,8 @@ export  function PlansPage() {
               <User className="w-5 h-5 text-white" />
             </div>
             <div className="flex-1">
-              <p className="text-sm font-medium text-white">John Doe</p>
-              <p className="text-xs text-gray-400">john@example.com</p>
+              <p className="text-sm font-medium text-white">{user.name}</p>
+              <p className="text-xs text-gray-400">{user.email}</p>
             </div>
           </div>
           <button onClick={handleLogout} className="flex items-center gap-3 px-4 py-2 text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-colors w-full">

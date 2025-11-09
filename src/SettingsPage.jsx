@@ -49,11 +49,11 @@ export  function SettingsPage() {
   });
 
   // Plan Info (read-only for now)
-  const planInfo = {
-    name: 'Pro Plan',
-    price: '$29/ay',
-    features: ['Sınırsız Blog', 'Tüm Kategoriler', 'Öncelikli Destek']
-  };
+  const [planInfo,setPlanInfo] =useState({
+    name: `${user?.currentPlan.name} Plan`,
+    price: user?.billingCycle==='monthly' ? `$${user?.currentPlan.monthlyPrice}/ay`:`$${user?.currentPlan.yearlyPrice}/yıl`,
+    features: user?.currentPlan.features
+  }) ;
 
   useEffect(() => {
     if (showSuccessMessage) {
@@ -99,6 +99,12 @@ export  function SettingsPage() {
           ? prev.systemUpdates
           : user.notifications?.systemUpdates || false,
     }));
+
+    setPlanInfo(prev=>({
+      name:prev.name || `${user.currentPlan.name} Plan`,
+      price:prev.price || user.billingCycle==='monthly' ? `$${user?.currentPlan.monthlyPrice}/ay`:`$${user?.currentPlan.yearlyPrice}/yıl` ,
+      features:prev.features || user.currentPlan.features
+    }))
   }, [loading, user]);
   
 
