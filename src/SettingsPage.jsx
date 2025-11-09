@@ -55,6 +55,8 @@ export  function SettingsPage() {
     features: user?.currentPlan.features
   }) ;
 
+  console.log(planInfo)
+
   useEffect(() => {
     if (showSuccessMessage) {
       const timer = setTimeout(() => {
