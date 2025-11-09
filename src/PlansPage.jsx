@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { 
   Settings, LogOut, User, Menu, X, Home, FileText,
   BookOpen, Check, Sparkles, Zap, Crown, ArrowRight,
-  CreditCard
+  CreditCard,CheckCircle
 } from 'lucide-react';
 import { Root } from '../config';
 import { useUser } from '../context/UserContext';
