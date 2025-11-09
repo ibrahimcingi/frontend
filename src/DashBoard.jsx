@@ -25,7 +25,7 @@ export default function DashBoardPage() {
   const navigate=useNavigate()
 
   const [isLoading,setIsLoading]=useState(true)
-  const { user,loading,setReady } = useUser();
+  const { user,loading } = useUser();
 
 
   const fetchSummary=async ()=>{
@@ -171,7 +171,6 @@ export default function DashBoardPage() {
       })
       if(response.ok){
         console.log('Logout');
-        setReady(false)
         navigate('/login')
       }
 

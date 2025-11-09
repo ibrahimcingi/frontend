@@ -2,7 +2,7 @@ import React, { useState,useEffect } from 'react';
 import { Eye, EyeOff, Mail, Lock } from 'lucide-react';
 import { useNavigate } from "react-router-dom";
 import { Root } from '../config.js';
-import { useUser } from '../context/UserContext.jsx';
+//import { useUser } from '../context/UserContext.jsx';
 
 
 
@@ -15,7 +15,7 @@ export function LoginPage() {
   const [rememberMe,setRememberMe]=useState(false)
 
   const navigate=useNavigate()
-  const {setReady}=useUser()
+  //const {setReady}=useUser()
 
   
 
@@ -37,7 +37,7 @@ export function LoginPage() {
       if (res.ok && data.token) {
         setTimeout(()=>{
           console.log("✅ Logged in!");
-          setReady(true)
+          //setReady(true)
           if(data.user.wordpressUrl){
             navigate('/')
           }else{
