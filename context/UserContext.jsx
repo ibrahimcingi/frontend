@@ -32,9 +32,7 @@ export function UserProvider({ children }) {
 
     }
   useEffect(() => {
-    if(ready){
       fetchUser();
-    }
      }, [ready]);
 
   return (
