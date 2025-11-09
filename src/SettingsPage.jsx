@@ -747,7 +747,7 @@ export  function SettingsPage() {
                       ))}
                     </div>
 
-                    <button className="w-full bg-white/10 hover:bg-white/20 text-white font-semibold py-3 px-6 rounded-xl transition-all">
+                    <button onClick={()=>navigate('/PlansPage')} className="w-full bg-white/10 hover:bg-white/20 text-white font-semibold py-3 px-6 rounded-xl transition-all">
                       Plan Yükselt
                     </button>
                   </div>

@@ -17,7 +17,9 @@ import { ForgotPasswordPage } from './ResetPassword.jsx';
 import { WordPressConnectionPage } from './WordpressConnection.jsx';
 import { BlogHistoryPage } from './BlogHistoryPage.jsx';
 import { SettingsPage } from './SettingsPage.jsx';
+import { PlansPage } from './PlansPage.jsx';
 import ProtectedRoute from './ProtectedRoute.jsx';
+
 
 
 
@@ -81,6 +83,19 @@ function App() {
           </UserProvider>
         }
       />
+
+<Route
+        path="/PlansPage"
+        element={
+          <UserProvider>
+            <ProtectedRoute>
+              <DashBoardPage />
+            </ProtectedRoute>
+          </UserProvider>
+        }
+      />
+
+
     </Routes>
   );
 }
