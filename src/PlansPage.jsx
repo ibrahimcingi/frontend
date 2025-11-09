@@ -100,7 +100,7 @@ export  function PlansPage() {
   };
 
   const handleUpgrade = async () => {
-    if (!selectedPlan && selectedPlan ==='free') return;
+    if (!selectedPlan && selectedPlan.id ==='free') return;
 
     try{
       const response=await fetch(`${Root}/api/users/PlanUpdate`,{
@@ -115,7 +115,10 @@ export  function PlansPage() {
         })
       })
       if(response.ok){
-        console.log('Selected plan:', selectedPlan, 'Billing cycle:', billingCycle);
+        setTimeout(()=>{
+          setShowSuccessMessage(true)
+          console.log('Selected plan:', selectedPlan, 'Billing cycle:', billingCycle);
+        },200)
       }  
 
     }catch(error){
