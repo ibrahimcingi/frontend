@@ -20,6 +20,8 @@ export function UserProvider({ children }) {
         const res = await fetch(`${Root}/api/users/me`, { credentials: "include" });
       const data = await res.json();
       if(res.ok){
+        console.log('from user context',data.user)
+        console.log(ready)
         setUser(data.user)
         setLoading(false);
       }else if(res.status===401){
