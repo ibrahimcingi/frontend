@@ -102,11 +102,11 @@ export  function WordPressConnectionPage() {
       console.log('Response data:', data);
 
       if(response.ok){
+        alert('WordPress bağlantısı başarıyla kaydedildi!');
+          navigate('/')
         setTimeout(async () => {
           await setReady(true)
           setIsLoading(false);
-          alert('WordPress bağlantısı başarıyla kaydedildi!');
-          navigate('/')
         }, 2000);
       }else if(response.status===401){
         navigate('/login')
