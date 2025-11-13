@@ -49,6 +49,12 @@ export  function WordPressConnectionPage() {
   const handleTestConnection = async () => {
     setIsLoading(true);
     setConnectionStatus(null);
+
+    let url = formData.wordpressUrl;
+
+    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+      url = 'https://' + url;
+    }
     
     // Backend API çağrısı - Bağlantıyı test et
     try {
@@ -58,7 +64,7 @@ export  function WordPressConnectionPage() {
            headers: { 
              'Content-Type': 'application/json'},
              body:JSON.stringify({
-              wordpressUrl:formData.wordpressUrl,
+              wordpressUrl:url,
               wordpressUser:formData.wordpressUsername,
               wordpressPassword:formData.applicationPassword
              })
