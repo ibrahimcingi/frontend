@@ -291,6 +291,24 @@ export  function SettingsPage() {
 
   };
 
+  const handleLogoutAll=async ()=>{
+    console.log('Handling logout all')
+    try{
+      const response=await fetch(`${Root}/api/auth/logoutAll`,{
+        method:"POST",
+        credentials:'include',
+      })
+
+      if(response.ok){
+        console.log('Logout');
+        navigate('/login')
+      }
+    }catch(error){
+      console.error("LogoutAll error:", error);
+
+    }
+  }
+
   const tabs = [
     { id: 'account', label: 'Hesap', icon: User },
     { id: 'wordpress', label: 'WordPress', icon: Globe },
@@ -729,17 +747,47 @@ export  function SettingsPage() {
                       </button>
                     </div>
 
+
                     <div className="bg-white/5 rounded-xl p-4">
-                      <h3 className="text-white font-semibold mb-2">Oturum Geçmişi</h3>
-                      <p className="text-sm text-gray-400 mb-3">
-                        Son giriş: Bugün, 14:30
-                      </p>
-                      <button className="text-sm text-purple-400 hover:text-purple-300 transition-colors">
+                      <h3 className="text-white font-semibold mb-3">Oturum Geçmişi</h3>
+
+                      {user.loginHistory && user.loginHistory.length > 0 ? (
+                        <div className="space-y-3">
+                          {user.loginHistory
+                            .slice()                          // copy
+                            .sort((a, b) => new Date(b.loggedAt) - new Date(a.loggedAt)) // son giriş en üstte
+                            .map(h => (
+                              <div
+                                key={h.loggedAt}
+                                className="flex items-center justify-between bg-white/10 p-3 rounded-lg"
+                              >
+                                <div>
+                                  <p className="text-white font-medium">
+                                    {h.deviceType ? h.deviceType.toUpperCase() : "CİHAZ"} • {h.browser || "Browser"}
+                                  </p>
+                                  <p className="text-gray-400 text-sm">
+                                    {h.city || "—"}, {h.country || "—"}
+                                  </p>
+                                </div>
+
+                                <p className="text-gray-300 text-sm">
+                                  {new Date(h.loggedAt).toLocaleString()}
+                                </p>
+                              </div>
+                            ))}
+                        </div>
+                      ) : (
+                        <p className="text-gray-400 text-sm">Henüz oturum geçmişi yok.</p>
+                      )}
+
+                      <button
+                        onClick={handleLogoutAll}
+                        className="mt-4 text-sm text-purple-400 hover:text-purple-300 transition-colors"
+                      >
                         Tüm cihazlardan çıkış yap →
                       </button>
-                    </div>
+                  </div>
 
-                    
                   </div>
                 </div>
               )}
