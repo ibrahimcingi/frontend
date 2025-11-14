@@ -4,9 +4,11 @@ import {
   Check, ArrowRight, Menu, X, ChevronRight, Brain,
   BarChart3, Shield, Rocket, Users, Target, PenTool
 } from 'lucide-react';
+import { useNavigate } from "react-router-dom";
 
 export  function AutoBlogLanding() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const navigate=useNavigate()
 
   const features = [
     {
@@ -156,10 +158,10 @@ export  function AutoBlogLanding() {
 
             {/* Auth Buttons */}
             <div className="hidden md:flex items-center gap-4">
-              <button className="text-white hover:text-purple-300 transition-colors font-medium">
+              <button onClick={()=>navigate('/login')} className="text-white hover:text-purple-300 transition-colors font-medium cursor-pointer">
                 Giriş Yap
               </button>
-              <button className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold px-6 py-2 rounded-lg transition-all">
+              <button onClick={()=>navigate('/register')} className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold px-6 py-2 rounded-lg transition-all cursor-pointer">
                 Ücretsiz Başla
               </button>
             </div>
@@ -182,10 +184,10 @@ export  function AutoBlogLanding() {
               <a href="#how-it-works" className="block text-gray-300 hover:text-white transition-colors py-2">Nasıl Çalışır</a>
               <a href="#pricing" className="block text-gray-300 hover:text-white transition-colors py-2">Fiyatlandırma</a>
               <div className="pt-3 border-t border-white/10 space-y-2">
-                <button className="w-full text-white hover:text-purple-300 transition-colors font-medium py-2">
+                <button onClick={()=>navigate('/login')} className="w-full text-white hover:text-purple-300 transition-colors font-medium py-2 cursor-pointer">
                   Giriş Yap
                 </button>
-                <button className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white font-semibold px-6 py-2 rounded-lg">
+                <button onClick={()=>navigate('/register')} className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white font-semibold px-6 py-2 rounded-lg cursor-pointer">
                   Ücretsiz Başla
                 </button>
               </div>
