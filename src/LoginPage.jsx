@@ -39,7 +39,7 @@ export function LoginPage() {
           console.log("✅ Logged in!");
           //setReady(true)
           if(data.user.wordpressUrl){
-            navigate('/')
+            navigate('/Dashboard')
           }else{
             navigate('/wordpressConnection')
           }

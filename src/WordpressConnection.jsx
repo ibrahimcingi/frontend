@@ -92,7 +92,7 @@ export  function WordPressConnectionPage() {
         setTimeout(async () => {
           await setReady(true)
           setIsLoading(false);
-          navigate('/')
+          navigate('/Dashboard')
         }, 1000);
       }else if(response.status===401){
         navigate('/login')

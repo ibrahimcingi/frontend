@@ -18,6 +18,7 @@ import { WordPressConnectionPage } from './WordpressConnection.jsx';
 import { BlogHistoryPage } from './BlogHistoryPage.jsx';
 import { SettingsPage } from './SettingsPage.jsx';
 import { PlansPage } from './PlansPage.jsx';
+import { AutoBlogLanding } from './LandingPage.jsx';
 import ProtectedRoute from './ProtectedRoute.jsx';
 
 
@@ -29,6 +30,8 @@ function App() {
   return (
     <Routes>
       {/* Public routes */}
+      <Route path="/" element={<AutoBlogLanding />} />
+
 
       <Route
         path="/login"
@@ -38,13 +41,14 @@ function App() {
          
         }
       />
+      
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/resetPassword" element={<ForgotPasswordPage />} />
-
+      
       {/* Protected routes */}
 
       <Route
-        path="/"
+        path="/Dashboard"
         element={
           <UserProvider>
             <ProtectedRoute>
