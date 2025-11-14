@@ -19,7 +19,7 @@ export  function SettingsPage() {
   const [successMessage, setSuccessMessage] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const navigate=useNavigate()
-  const { user, loading } = useUser();
+  const { user,setUser ,loading } = useUser();
 
   
   // Account Settings
@@ -293,6 +293,28 @@ export  function SettingsPage() {
     }
 
   };
+
+  const handleDeleteLoginHistory=async (id)=>{
+    try{
+      const response=await fetch(`${Root}/api/users/deleteLoginHistory`,{
+        method:"DELETE",
+        credentials:"include",
+        body:JSON.stringify({historyId:id})
+      })
+
+      if(response.ok){
+        await setUser(prev => ({
+          ...prev,
+          loginHistory: prev.loginHistory.filter(h => h._id !== id)
+        }));
+        
+        console.log('Oturum kaydı silindi:', loggedAt);
+      }
+
+    }catch(error){
+
+    }
+  }
 
   const handleLogoutAll=async ()=>{
     console.log('Handling logout all')
@@ -752,40 +774,41 @@ export  function SettingsPage() {
 
 
                     <div className="bg-white/5 rounded-xl p-4">
-                      <h3 className="text-white font-semibold mb-3">Oturum Geçmişi</h3>
+                    <h3 className="text-white font-semibold mb-3">Oturum Geçmişi</h3>
 
-                      {user.loginHistory && user.loginHistory.length > 0 ? (
-                        <div className="space-y-3">
-                          {user.loginHistory
-                            .slice()
-                            .sort((a, b) => new Date(b.loggedAt) - new Date(a.loggedAt))
-                            .map(h => {
-                              const date = new Date(h.loggedAt);
-                              const formattedDate = date.toLocaleDateString('tr-TR', {
-                                day: '2-digit',
-                                month: '2-digit',
-                                year: 'numeric'
-                              });
-                              const formattedTime = date.toLocaleTimeString('tr-TR', {
-                                hour: '2-digit',
-                                minute: '2-digit'
-                              });
+                    {user.loginHistory && user.loginHistory.length > 0 ? (
+                      <div className="space-y-3">
+                        {user.loginHistory
+                          .slice()
+                          .sort((a, b) => new Date(b.loggedAt) - new Date(a.loggedAt))
+                          .map(h => {
+                            const date = new Date(h.loggedAt);
+                            const formattedDate = date.toLocaleDateString('tr-TR', {
+                              day: '2-digit',
+                              month: '2-digit',
+                              year: 'numeric'
+                            });
+                            const formattedTime = date.toLocaleTimeString('tr-TR', {
+                              hour: '2-digit',
+                              minute: '2-digit'
+                            });
 
-                              return (
-                                <div
-                                  key={h.loggedAt}
-                                  className="flex items-center justify-between bg-white/10 p-3 rounded-lg hover:bg-white/15 transition-colors"
-                                >
-                                  <div className="flex-1">
-                                    <p className="text-white font-medium">
-                                      {h.deviceType ? h.deviceType.toUpperCase() : "CİHAZ"} • {h.browser || "Browser"}
-                                    </p>
-                                    <p className="text-gray-400 text-sm mt-1">
-                                      {h.city || "—"}, {h.country || "—"}
-                                    </p>
-                                  </div>
+                            return (
+                              <div
+                                key={h.loggedAt}
+                                className="flex items-center justify-between bg-white/10 p-3 rounded-lg hover:bg-white/15 transition-colors group"
+                              >
+                                <div className="flex-1">
+                                  <p className="text-white font-medium">
+                                    {h.deviceType ? h.deviceType.toUpperCase() : "CİHAZ"} • {h.browser || "Browser"}
+                                  </p>
+                                  <p className="text-gray-400 text-sm mt-1">
+                                    {h.city || "—"}, {h.country || "—"}
+                                  </p>
+                                </div>
 
-                                  <div className="text-right ml-4">
+                                <div className="flex items-center gap-3">
+                                  <div className="text-right">
                                     <p className="text-white text-sm font-medium">
                                       {formattedDate}
                                     </p>
@@ -793,21 +816,41 @@ export  function SettingsPage() {
                                       {formattedTime}
                                     </p>
                                   </div>
-                                </div>
-                              );
-                            })}
-                        </div>
-                      ) : (
-                        <p className="text-gray-400 text-sm">Henüz oturum geçmişi yok.</p>
-                      )}
 
-                      <button
-                        onClick={handleLogoutAll}
-                        className="mt-4 text-sm text-purple-400 hover:text-purple-300 transition-colors font-medium"
-                      >
-                        Tüm cihazlardan çıkış yap →
-                      </button>
-                  </div>
+                                  <button
+                                    onClick={() => handleDeleteLoginHistory(h._id)}
+                                    className="opacity-0 group-hover:opacity-100 transition-opacity p-2 hover:bg-red-500/20 rounded-lg"
+                                    title="Bu oturumu sil"
+                                  >
+                                    <svg 
+                                      xmlns="http://www.w3.org/2000/svg" 
+                                      className="h-5 w-5 text-red-400 hover:text-red-300" 
+                                      viewBox="0 0 20 20" 
+                                      fill="currentColor"
+                                    >
+                                      <path 
+                                        fillRule="evenodd" 
+                                        d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" 
+                                        clipRule="evenodd" 
+                                      />
+                                    </svg>
+                                  </button>
+                                </div>
+                              </div>
+                            );
+                          })}
+                      </div>
+                    ) : (
+                      <p className="text-gray-400 text-sm">Henüz oturum geçmişi yok.</p>
+                    )}
+
+                    <button
+                      onClick={handleLogoutAll}
+                      className="mt-4 text-sm text-purple-400 hover:text-purple-300 transition-colors font-medium"
+                    >
+                      Tüm cihazlardan çıkış yap →
+                    </button>
+                </div>
 
                   </div>
                 </div>
