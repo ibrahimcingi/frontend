@@ -53,7 +53,6 @@ export  function SettingsPage() {
     features: user?.currentPlan.features
   }) ;
 
-  console.log(planInfo)
 
   useEffect(() => {
     if (showSuccessMessage) {
@@ -69,7 +68,11 @@ export  function SettingsPage() {
 
   useEffect(() => {
     if (loading || !user) return;
-  
+
+    console.log(user.loginHistory)
+
+    console.log(user.loginHistory)
+    
     setAccountData(prev => ({
       name: prev.name || user.name || '',
       email: prev.email || user.email || '',
