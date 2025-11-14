@@ -757,27 +757,45 @@ export  function SettingsPage() {
                       {user.loginHistory && user.loginHistory.length > 0 ? (
                         <div className="space-y-3">
                           {user.loginHistory
-                            .slice()                          // copy
-                            .sort((a, b) => new Date(b.loggedAt) - new Date(a.loggedAt)) // son giriş en üstte
-                            .map(h => (
-                              <div
-                                key={h.loggedAt}
-                                className="flex items-center justify-between bg-white/10 p-3 rounded-lg"
-                              >
-                                <div>
-                                  <p className="text-white font-medium">
-                                    {h.deviceType ? h.deviceType.toUpperCase() : "CİHAZ"} • {h.browser || "Browser"}
-                                  </p>
-                                  <p className="text-gray-400 text-sm">
-                                    {h.city || "—"}, {h.country || "—"}
-                                  </p>
-                                </div>
+                            .slice()
+                            .sort((a, b) => new Date(b.loggedAt) - new Date(a.loggedAt))
+                            .map(h => {
+                              const date = new Date(h.loggedAt);
+                              const formattedDate = date.toLocaleDateString('tr-TR', {
+                                day: '2-digit',
+                                month: '2-digit',
+                                year: 'numeric'
+                              });
+                              const formattedTime = date.toLocaleTimeString('tr-TR', {
+                                hour: '2-digit',
+                                minute: '2-digit'
+                              });
 
-                                <p className="text-gray-300 text-sm">
-                                  {new Date(h.loggedAt).toLocaleString()}
-                                </p>
-                              </div>
-                            ))}
+                              return (
+                                <div
+                                  key={h.loggedAt}
+                                  className="flex items-center justify-between bg-white/10 p-3 rounded-lg hover:bg-white/15 transition-colors"
+                                >
+                                  <div className="flex-1">
+                                    <p className="text-white font-medium">
+                                      {h.deviceType ? h.deviceType.toUpperCase() : "CİHAZ"} • {h.browser || "Browser"}
+                                    </p>
+                                    <p className="text-gray-400 text-sm mt-1">
+                                      {h.city || "—"}, {h.country || "—"}
+                                    </p>
+                                  </div>
+
+                                  <div className="text-right ml-4">
+                                    <p className="text-white text-sm font-medium">
+                                      {formattedDate}
+                                    </p>
+                                    <p className="text-gray-400 text-xs mt-0.5">
+                                      {formattedTime}
+                                    </p>
+                                  </div>
+                                </div>
+                              );
+                            })}
                         </div>
                       ) : (
                         <p className="text-gray-400 text-sm">Henüz oturum geçmişi yok.</p>
@@ -785,7 +803,7 @@ export  function SettingsPage() {
 
                       <button
                         onClick={handleLogoutAll}
-                        className="mt-4 text-sm text-purple-400 hover:text-purple-300 transition-colors"
+                        className="mt-4 text-sm text-purple-400 hover:text-purple-300 transition-colors font-medium"
                       >
                         Tüm cihazlardan çıkış yap →
                       </button>
