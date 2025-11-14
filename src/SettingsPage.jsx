@@ -299,6 +299,9 @@ export  function SettingsPage() {
       const response=await fetch(`${Root}/api/users/deleteLoginHistory`,{
         method:"DELETE",
         credentials:"include",
+        headers: {
+          "Content-Type": "application/json"
+        },
         body:JSON.stringify({historyId:id})
       })
 
@@ -308,7 +311,7 @@ export  function SettingsPage() {
           loginHistory: prev.loginHistory.filter(h => h._id !== id)
         }));
         
-        console.log('Oturum kaydı silindi:', loggedAt);
+        console.log('Oturum kaydı silindi:', id);
       }
 
     }catch(error){
@@ -795,7 +798,7 @@ export  function SettingsPage() {
 
                             return (
                               <div
-                                key={h.loggedAt}
+                                key={h._id}
                                 className="flex items-center justify-between bg-white/10 p-3 rounded-lg hover:bg-white/15 transition-colors group"
                               >
                                 <div className="flex-1">
