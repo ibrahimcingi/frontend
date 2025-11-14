@@ -36,10 +36,8 @@ export  function SettingsPage() {
     url: user?.wordpressUrl,
     username: user?.wordpressUser,
     applicationPassword: '',
-    categories: user?.categories
   });
 
-  const [newCategory, setNewCategory] = useState('');
 
   // Notification Settings
   const [notifications, setNotifications] = useState({
@@ -84,7 +82,6 @@ export  function SettingsPage() {
       ...prev,
       url: prev.url || user.wordpressUrl || '',
       username: prev.username || user.wordpressUser || '',
-      categories: prev.categories?.length ? prev.categories : user.categories || [],
     }));
   
     setNotifications(prev => ({
@@ -216,22 +213,7 @@ export  function SettingsPage() {
     }
   };
 
-  const handleAddCategory = () => {
-    if (newCategory.trim() && !wordpressData.categories.includes(newCategory.trim())) {
-      setWordpressData({
-        ...wordpressData,
-        categories: [...wordpressData.categories, newCategory.trim()]
-      });
-      setNewCategory('');
-    }
-  };
-
-  const handleRemoveCategory = (category) => {
-    setWordpressData({
-      ...wordpressData,
-      categories: wordpressData.categories.filter(cat => cat !== category)
-    });
-  };
+  
 
   const handleNotificationSave = async () => {
     setIsSaving(true);
@@ -614,46 +596,7 @@ export  function SettingsPage() {
                       />
                     </div>
 
-                    <div>
-                      <label className="block text-sm font-medium text-gray-200 mb-2">Kategoriler</label>
-                      <div className="flex gap-2 mb-3">
-                        <input
-                          type="text"
-                          value={newCategory}
-                          onChange={(e) => setNewCategory(e.target.value)}
-                          onKeyPress={(e) => e.key === 'Enter' && handleAddCategory()}
-                          placeholder="Yeni kategori ekle"
-                          className="flex-1 px-4 py-3 border border-gray-600 rounded-xl bg-white/5 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
-                        />
-                        <button
-                          onClick={handleAddCategory}
-                          className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl transition-all"
-                        >
-                          Ekle
-                        </button>
-                      </div>
-                      
-                      {wordpressData.categories.length > 0 && (
-                        <div className="flex flex-wrap gap-2 p-4 bg-white/5 rounded-xl border border-gray-600">
-                          {wordpressData.categories.map((category, index) => (
-                            <span
-                              key={index}
-                              className="inline-flex items-center gap-2 px-3 py-1.5 bg-purple-500/20 border border-purple-500/30 text-purple-300 rounded-lg text-sm"
-                            >
-                              <Tag className="w-3.5 h-3.5" />
-                              {category}
-                              <button
-                                onClick={() => handleRemoveCategory(category)}
-                                className="hover:text-purple-200 transition-colors"
-                              >
-                                ×
-                              </button>
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-
+                    
                     <button
                       onClick={handleWordPressSave}
                       disabled={isSaving}

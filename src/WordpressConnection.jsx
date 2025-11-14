@@ -9,9 +9,7 @@ export  function WordPressConnectionPage() {
     wordpressUrl: '',
     wordpressUsername: '',
     applicationPassword: '',
-    categories: []
   });
-  const [categoryInput, setCategoryInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [connectionStatus, setConnectionStatus] = useState(null); // null, 'success', 'error'
 
@@ -25,24 +23,6 @@ export  function WordPressConnectionPage() {
     setFormData({ 
       ...formData,
       [e.target.name]: e.target.value
-    });
-  };
-
-  const handleAddCategory = (e) => {
-    e.preventDefault();
-    if (categoryInput.trim() && !formData.categories.includes(categoryInput.trim())) {
-      setFormData({
-        ...formData,
-        categories: [...formData.categories, categoryInput.trim()]
-      });
-      setCategoryInput('');
-    }
-  };
-
-  const handleRemoveCategory = (categoryToRemove) => {
-    setFormData({
-      ...formData,
-      categories: formData.categories.filter(cat => cat !== categoryToRemove)
     });
   };
 
@@ -299,63 +279,7 @@ export  function WordPressConnectionPage() {
               </div>
             </div>
 
-            {/* Categories */}
-            <div>
-              <label htmlFor="categories" className="block text-sm font-medium text-gray-200 mb-2">
-                Blog Kategorileri
-              </label>
-              <div className="flex gap-2 mb-3">
-                <div className="relative flex-1">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Tag className="h-5 w-5 text-gray-400" />
-                  </div>
-                  <input
-                    id="categories"
-                    type="text"
-                    value={categoryInput}
-                    onChange={(e) => setCategoryInput(e.target.value)}
-                    onKeyPress={(e) => {
-                      if (e.key === 'Enter') {
-                        handleAddCategory(e);
-                      }
-                    }}
-                    className="block w-full pl-10 pr-3 py-3 border border-gray-600 rounded-xl bg-white/5 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
-                    placeholder="Kategori adı girin"
-                  />
-                </div>
-                <button
-                  onClick={handleAddCategory}
-                  className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl transition-all duration-200"
-                >
-                  Ekle
-                </button>
-              </div>
-              
-              {/* Category Tags */}
-              {formData.categories.length > 0 && (
-                <div className="flex flex-wrap gap-2 p-4 bg-white/5 rounded-xl border border-gray-600">
-                  {formData.categories.map((category, index) => (
-                    <span
-                      key={index}
-                      className="inline-flex items-center gap-2 px-3 py-1.5 bg-purple-500/20 border border-purple-500/30 text-purple-300 rounded-lg text-sm"
-                    >
-                      <Tag className="w-3.5 h-3.5" />
-                      {category}
-                      <button
-                        onClick={() => handleRemoveCategory(category)}
-                        className="hover:text-purple-200 transition-colors"
-                      >
-                        ×
-                      </button>
-                    </span>
-                  ))}
-                </div>
-              )}
-              
-              <p className="mt-2 text-xs text-gray-400">
-                Otonom blogların yayınlanacağı kategorileri ekleyin. Enter tuşu ile de ekleyebilirsiniz.
-              </p>
-            </div>
+           
 
             {/* Save Button */}
             <button
