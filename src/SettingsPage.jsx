@@ -822,7 +822,7 @@ export  function SettingsPage() {
 
                                   <button
                                     onClick={() => handleDeleteLoginHistory(h._id)}
-                                    className="opacity-0 group-hover:opacity-100 transition-opacity p-2 hover:bg-red-500/20 rounded-lg"
+                                    className="opacity-0 group-hover:opacity-100 transition-opacity p-2 hover:bg-red-500/20 rounded-lg cursor-pointer"
                                     title="Bu oturumu sil"
                                   >
                                     <svg 
