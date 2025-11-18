@@ -29,7 +29,8 @@ export  function PlansPage() {
             plan: {
               ...selectedPlan,
               icon: "BookOpen"   // 👈 sadece ismi gönder
-            }
+            },
+            billingCycle
           }
         });
         

@@ -24,6 +24,11 @@ export  function CheckoutPage() {
   
   const selectedPlan = state?.plan;
 
+  const billingCycle=state?.billingCycle
+
+  console.log(selectedPlan)
+  console.log(billingCycle)
+
 
   // Form data
   const [formData, setFormData] = useState({
@@ -488,17 +493,17 @@ export  function CheckoutPage() {
               <div className="space-y-3 mb-6 pb-6 border-b border-white/10">
                 <div className="flex justify-between text-gray-300">
                   <span>Alt Toplam</span>
-                  <span>${selectedPlan.price}</span>
+                  <span>${billingCycle==='monthly' ? selectedPlan.monthlyPrice : selectedPlan.yearlyPrice }</span>
                 </div>
                 <div className="flex justify-between text-gray-300">
                   <span>KDV (%20)</span>
-                  <span>${(selectedPlan.price * 0.2).toFixed(2)}</span>
+                  <span>${((billingCycle==='monthly' ? selectedPlan.monthlyPrice : selectedPlan.yearlyPrice) * 0.2).toFixed(2)}</span>
                 </div>
               </div>
 
               <div className="flex justify-between text-white text-xl font-bold mb-6">
                 <span>Toplam</span>
-                <span>${(selectedPlan.price * 1.2).toFixed(2)}</span>
+                <span>${((billingCycle==='monthly' ? selectedPlan.monthlyPrice : selectedPlan.yearlyPrice) * 1.2).toFixed(2)}</span>
               </div>
 
               {/* Trust Badges */}
