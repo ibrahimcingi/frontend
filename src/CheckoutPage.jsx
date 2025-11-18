@@ -178,6 +178,7 @@ export  function CheckoutPage() {
           credentials:'include',
           headers:{'Content-Type': 'application/json',},
           body: JSON.stringify({
+            email:formData.email,
             paymentMethodId: paymentMethod.id,
             planId: selectedPlan.id,
             billingInfo: {
