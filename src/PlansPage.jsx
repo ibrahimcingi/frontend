@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import { Root } from '../config';
 import { useUser } from '../context/UserContext';
+import { useNavigate } from 'react-router-dom';
 
 export  function PlansPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -14,6 +15,8 @@ export  function PlansPage() {
   const [showSuccessMessage,setShowSuccessMessage]=useState(false)
   const [currentPlan,setCurrentPlan]=useState({})
 
+  const navigate=useNavigate()
+
   const {user,loading}=useUser()
 
   useEffect(()=>{
@@ -21,7 +24,10 @@ export  function PlansPage() {
       setTimeout(()=>{
         setShowSuccessMessage(false)
         alert('Ödeme sayfasına yönlendiriliyorsunuz...');
-        //redirect to payment page
+        navigate("/Checkout", {
+          state: { plan: selectedPlan }
+        });
+        
       },5000)
     }
   },[showSuccessMessage])

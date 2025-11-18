@@ -8,6 +8,7 @@ import { Root } from '../config.js';
 import { useNavigate } from 'react-router-dom';
 
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
+import { useLocation } from "react-router-dom";
 
 
 export  function CheckoutPage() {
@@ -16,24 +17,13 @@ export  function CheckoutPage() {
   const [errorMessage, setErrorMessage] = useState(null);
   const navigate=useNavigate()
 
+  const stripe = useStripe();
+  const elements = useElements();
+
+  const { state } = useLocation();
   
-  
-  // Selected plan (would come from URL params or state)
-  const [selectedPlan, setSelectedPlan] = useState({
-    id: 'pro',
-    name: 'Pro',
-    price: 29,
-    period: 'ay',
-    features: [
-      'Sınırsız Blog',
-      'Sınırsız Kategori',
-      'Gelişmiş AI Özellikleri',
-      'Öncelikli Destek',
-      'WordPress Entegrasyonu',
-      'SEO Optimizasyonu',
-      'Analitik Dashboard'
-    ]
-  });
+  const selectedPlan = state?.plan;
+
 
   // Form data
   const [formData, setFormData] = useState({
