@@ -84,12 +84,6 @@ export  function CheckoutPage() {
     }
 
 
-    if (!formData.expiryDate || !validateExpiryDate(formData.expiryDate)) {
-      errors.expiryDate = 'Geçerli bir son kullanma tarihi girin (AA/YY)';
-    }
-
-   
-
     if (!formData.billingAddress || formData.billingAddress.length < 5) {
       errors.billingAddress = 'Fatura adresinizi girin';
     }
