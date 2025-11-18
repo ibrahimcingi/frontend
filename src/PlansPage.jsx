@@ -25,8 +25,14 @@ export  function PlansPage() {
         setShowSuccessMessage(false)
         alert('Ödeme sayfasına yönlendiriliyorsunuz...');
         navigate("/Checkout", {
-          state: { plan: selectedPlan }
+          state: {
+            selectedPlan: {
+              ...selectedPlan,
+              icon: "BookOpen"   // 👈 sadece ismi gönder
+            }
+          }
         });
+        
         
       },5000)
     }
@@ -264,7 +270,7 @@ export  function PlansPage() {
             <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-xl p-1 inline-flex">
               <button
                 onClick={() => setBillingCycle('monthly')}
-                className={`px-6 py-2 rounded-lg font-medium transition-all ${
+                className={`px-6 py-2 rounded-lg font-medium transition-all cursor-pointer ${
                   billingCycle === 'monthly'
                     ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white'
                     : 'text-gray-400 hover:text-white'
@@ -274,7 +280,7 @@ export  function PlansPage() {
               </button>
               <button
                 onClick={() => setBillingCycle('yearly')}
-                className={`px-6 py-2 rounded-lg font-medium transition-all relative ${
+                className={`px-6 py-2 rounded-lg font-medium transition-all relative cursor-pointer ${
                   billingCycle === 'yearly'
                     ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white'
                     : 'text-gray-400 hover:text-white'
@@ -367,7 +373,7 @@ export  function PlansPage() {
                   <button
                     onClick={() => handleSelectPlan(plan.id)}
                     disabled={isCurrentPlan}
-                    className={`w-full py-3 px-4 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 ${
+                    className={`w-full py-3 px-4 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 cursor-pointer ${
                       isCurrentPlan
                         ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
                         : plan.popular
@@ -403,7 +409,7 @@ export  function PlansPage() {
 
               <button
                 onClick={handleUpgrade}
-                className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold py-4 px-6 rounded-xl transition-all flex items-center justify-center gap-2"
+                className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold py-4 px-6 rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer"
               >
                 <CreditCard className="w-5 h-5" />
                 Ödemeye Geç
