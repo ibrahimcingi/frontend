@@ -26,7 +26,7 @@ export  function PlansPage() {
         alert('Ödeme sayfasına yönlendiriliyorsunuz...');
         navigate("/Checkout", {
           state: {
-            selectedPlan: {
+            plan: {
               ...selectedPlan,
               icon: "BookOpen"   // 👈 sadece ismi gönder
             }
