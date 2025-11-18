@@ -112,9 +112,7 @@ export  function CheckoutPage() {
     return true;
   };
 
-  const validateCVV = (cvv) => {
-    return cvv.length === 3 || cvv.length === 4;
-  };
+  
 
   const validateForm = () => {
     const errors = {};
@@ -123,21 +121,12 @@ export  function CheckoutPage() {
       errors.email = 'Geçerli bir e-posta adresi girin';
     }
 
-    if (!formData.cardNumber || !validateCardNumber(formData.cardNumber)) {
-      errors.cardNumber = 'Geçerli bir kart numarası girin (16 hane)';
-    }
-
-    if (!formData.cardName || formData.cardName.length < 3) {
-      errors.cardName = 'Kart üzerindeki ismi girin';
-    }
 
     if (!formData.expiryDate || !validateExpiryDate(formData.expiryDate)) {
       errors.expiryDate = 'Geçerli bir son kullanma tarihi girin (AA/YY)';
     }
 
-    if (!formData.cvv || !validateCVV(formData.cvv)) {
-      errors.cvv = 'Geçerli bir CVV girin (3-4 hane)';
-    }
+   
 
     if (!formData.billingAddress || formData.billingAddress.length < 5) {
       errors.billingAddress = 'Fatura adresinizi girin';
@@ -152,7 +141,9 @@ export  function CheckoutPage() {
     }
 
     setFieldErrors(errors);
+    console.log(errors)
     return Object.keys(errors).length === 0;
+
   };
 
   const handleSubmit = async (e) => {
@@ -337,6 +328,7 @@ export  function CheckoutPage() {
                 <div className="relative p-3 border rounded-xl bg-white/5 border-gray-600 focus-within:ring-2 focus-within:ring-purple-500">
                         <CardElement
                           options={{
+                            hidePostalCode:true,
                             style: {
                               base: {
                                 fontSize: "16px",
