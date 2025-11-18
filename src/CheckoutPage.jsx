@@ -64,25 +64,7 @@ export  function CheckoutPage() {
       setFieldErrors({ ...fieldErrors, [name]: '' });
     }
 
-    // Format card number
-    if (name === 'cardNumber') {
-      const formatted = value.replace(/\s/g, '').replace(/(.{4})/g, '$1 ').trim();
-      setFormData({ ...formData, [name]: formatted.slice(0, 19) });
-      return;
-    }
-
-    // Format expiry date
-    if (name === 'expiryDate') {
-      const formatted = value.replace(/\D/g, '').replace(/(\d{2})(\d{0,2})/, '$1/$2');
-      setFormData({ ...formData, [name]: formatted.slice(0, 5) });
-      return;
-    }
-
-    // Format CVV
-    if (name === 'cvv') {
-      setFormData({ ...formData, [name]: value.replace(/\D/g, '').slice(0, 4) });
-      return;
-    }
+    
 
     setFormData({ ...formData, [name]: value });
   };
@@ -90,26 +72,6 @@ export  function CheckoutPage() {
   const validateEmail = (email) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(email);
-  };
-
-  const validateCardNumber = (number) => {
-    const cleaned = number.replace(/\s/g, '');
-    return cleaned.length === 16 && /^\d+$/.test(cleaned);
-  };
-
-  const validateExpiryDate = (date) => {
-    if (!/^\d{2}\/\d{2}$/.test(date)) return false;
-    
-    const [month, year] = date.split('/').map(Number);
-    const now = new Date();
-    const currentYear = now.getFullYear() % 100;
-    const currentMonth = now.getMonth() + 1;
-
-    if (month < 1 || month > 12) return false;
-    if (year < currentYear) return false;
-    if (year === currentYear && month < currentMonth) return false;
-
-    return true;
   };
 
   
