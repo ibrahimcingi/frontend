@@ -9,6 +9,13 @@ import DashBoardPage from './DashBoard.jsx';
 import ReactDOM from "react-dom/client";
 import { UserProvider } from '../context/UserContext.jsx';
 
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
+
+
+
 
 
 import { LoginPage } from './LoginPage.jsx';
@@ -18,6 +25,7 @@ import { WordPressConnectionPage } from './WordpressConnection.jsx';
 import { BlogHistoryPage } from './BlogHistoryPage.jsx';
 import { SettingsPage } from './SettingsPage.jsx';
 import { PlansPage } from './PlansPage.jsx';
+import { CheckoutPage } from './CheckoutPage.jsx';
 import { AutoBlogLanding } from './LandingPage.jsx';
 import ProtectedRoute from './ProtectedRoute.jsx';
 
@@ -94,6 +102,19 @@ function App() {
           <UserProvider>
             <ProtectedRoute>
               <PlansPage />
+            </ProtectedRoute>
+          </UserProvider>
+        }
+      />
+
+<Route
+        path="/Checkout"
+        element={
+          <UserProvider>
+            <ProtectedRoute>
+                <Elements stripe={stripePromise}>
+                 <CheckoutPage />
+                </Elements>
             </ProtectedRoute>
           </UserProvider>
         }
