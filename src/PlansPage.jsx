@@ -14,6 +14,7 @@ export  function PlansPage() {
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [showSuccessMessage,setShowSuccessMessage]=useState(false)
   const [currentPlan,setCurrentPlan]=useState({})
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const navigate=useNavigate()
 
@@ -30,7 +31,7 @@ export  function PlansPage() {
               ...selectedPlan,
               icon: "BookOpen"   // 👈 sadece ismi gönder
             },
-            billingCycle
+            billingCycle:billingCycle
           }
         });
         
@@ -54,6 +55,8 @@ export  function PlansPage() {
       description: 'Başlamak için ideal',
       monthlyPrice: 0,
       yearlyPrice: 0,
+      monthlyPriceId:'',
+      yearlyPriceId:'',
       color: 'from-gray-600 to-gray-700',
       popular: false,
       features: [
@@ -71,6 +74,8 @@ export  function PlansPage() {
       description: 'Profesyoneller için',
       monthlyPrice: 29,
       yearlyPrice: 290,
+      monthlyPriceId:'price_1SUxxoBOS0EXnmXntM09k260',
+      yearlyPriceId:'price_1SUxyRBOS0EXnmXnx2rSZPAC',
       color: 'from-purple-600 to-blue-600',
       popular: true,
       features: [
@@ -90,6 +95,8 @@ export  function PlansPage() {
       description: 'Büyük takımlar için',
       monthlyPrice: 99,
       yearlyPrice: 990,
+      monthlyPriceId:'price_1SUxyuBOS0EXnmXntrmkGJZl',
+      yearlyPriceId:'price_1SUxzQBOS0EXnmXnplif9xTJ',
       color: 'from-orange-600 to-red-600',
       popular: false,
       features: [
@@ -115,6 +122,7 @@ export  function PlansPage() {
   const handleUpgrade = async () => {
     if (!selectedPlan && selectedPlan.id ==='free') return;
 
+    setIsProcessing(true)
     try{
       const response=await fetch(`${Root}/api/users/PlanUpdate`,{
         method:"PUT",
@@ -130,12 +138,13 @@ export  function PlansPage() {
       if(response.ok){
         setTimeout(()=>{
           setShowSuccessMessage(true)
+          setIsProcessing(false)
           console.log('Selected plan:', selectedPlan, 'Billing cycle:', billingCycle);
         },200)
       }  
 
     }catch(error){
-      //again consider showing a toast
+      setIsProcessing(false)
       console.error(error)
     }
     
@@ -407,13 +416,21 @@ export  function PlansPage() {
                   <X className="w-6 h-6" />
                 </button>
               </div>
-
               <button
                 onClick={handleUpgrade}
                 className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold py-4 px-6 rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer"
               >
-                <CreditCard className="w-5 h-5" />
-                Ödemeye Geç
+                {isProcessing ? (
+                    <>
+                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      Ödemeye Geçiliyor...
+                    </>
+                  ) : (
+                    <>
+                      <CreditCard className="w-5 h-5" />
+                      Ödemeye Geç
+                    </>
+                  )}
               </button>
             </div>
           )}

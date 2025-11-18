@@ -132,7 +132,7 @@ export  function CheckoutPage() {
           body: JSON.stringify({
             email:formData.email,
             paymentMethodId: paymentMethod.id,
-            planId: selectedPlan.id,
+            priceId: billingCycle==='monthly' ? selectedPlan.monthlyPriceId : selectedPlan.yearlyPriceId,
             billingInfo: {
               name: formData.cardName,
               email: formData.email,
