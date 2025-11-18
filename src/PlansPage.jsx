@@ -13,6 +13,7 @@ export  function PlansPage() {
   const [billingCycle, setBillingCycle] = useState('monthly'); // 'monthly' or 'yearly'
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [showSuccessMessage,setShowSuccessMessage]=useState(false)
+  const [showErrorMessage,setShowErrorMessage]=useState(false)
   const [currentPlan,setCurrentPlan]=useState({})
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -39,6 +40,16 @@ export  function PlansPage() {
       },5000)
     }
   },[showSuccessMessage])
+
+  useEffect(()=>{
+    if(showErrorMessage){
+      setTimeout(() => setShowErrorMessage(false), 5000);
+    }
+  },[showErrorMessage])
+
+ 
+
+
 
   // Kullanıcının mevcut planı (backend'den gelecek)
   useEffect(()=>{
@@ -495,6 +506,29 @@ export  function PlansPage() {
             {/* Progress Bar */}
             <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/20 rounded-b-xl overflow-hidden">
               <div className="h-full bg-white/60 animate-progress"></div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Error Toast */}
+      {showErrorMessage && (
+        <div className="fixed top-6 right-6 z-50 animate-slide-in">
+          <div className="bg-gradient-to-r from-red-600 to-red-700 text-white rounded-xl shadow-2xl p-4 pr-12 min-w-[320px] max-w-md border border-red-400/30 backdrop-blur-lg">
+            <div className="flex items-start gap-3">
+              <div className="flex-shrink-0 w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                <AlertCircle className="w-6 h-6 text-white" />
+              </div>
+              <div className="flex-1">
+                <h4 className="font-semibold text-sm mb-1">Hay aksi! Bir şeyler ters gitti.</h4>
+                <p className="text-sm text-red-50">{}</p>
+              </div>
+              <button
+                onClick={() => setShowErrorMessage(false)}
+                className="absolute top-3 right-3 text-white/80 hover:text-white transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
             </div>
           </div>
         </div>

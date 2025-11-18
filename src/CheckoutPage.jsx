@@ -26,8 +26,6 @@ export  function CheckoutPage() {
 
   const billingCycle=state?.billingCycle
 
-  console.log(selectedPlan)
-  console.log(billingCycle)
 
 
   // Form data
@@ -48,8 +46,12 @@ export  function CheckoutPage() {
 
   const showSuccess = (message) => {
     setSuccessMessage(message);
-    setTimeout(() => setSuccessMessage(null), 5000);
+    setTimeout(()=>{
+      setSuccessMessage(null)
+      setIsProcessing(false);
+    },5000)
   };
+
 
   const showError = (message) => {
     setErrorMessage(message);
@@ -150,12 +152,11 @@ export  function CheckoutPage() {
 
         if(data.success){
           setTimeout(() => {
-            setIsProcessing(false);
             showSuccess('Ödeme başarıyla tamamlandı! Dashboard\'a yönlendiriliyorsunuz...');
             
-            // Redirect to dashboard after success
             setTimeout(() => {
               console.log('Redirecting to dashboard...');
+              
               navigate('/Dashboard')
             }, 2000);
           }, 2500);
