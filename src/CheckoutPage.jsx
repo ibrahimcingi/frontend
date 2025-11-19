@@ -135,9 +135,11 @@ export  function CheckoutPage() {
             email:formData.email,
             paymentMethodId: paymentMethod.id,
             priceId: billingCycle==='monthly' ? selectedPlan.monthlyPriceId : selectedPlan.yearlyPriceId,
+            plan:selectedPlan,
             billingInfo: {
               name: formData.cardName,
               email: formData.email,
+              cycle:billingCycle,
               address: formData.billingAddress,
               city: formData.city,
               country:formData.country,
