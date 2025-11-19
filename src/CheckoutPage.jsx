@@ -147,6 +147,7 @@ export  function CheckoutPage() {
           }),
         })
 
+
         const data=await response.json()
 
         console.log('Processing payment:', { plan: selectedPlan, formData });
