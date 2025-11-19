@@ -430,7 +430,6 @@ export  function PlansPage() {
               <button
                 onClick={handleUpgrade}
                 className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold py-4 px-6 rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer"
-                disabled={selectedPlan.name==='Free'}
               >
                 {isProcessing ? (
                     <>

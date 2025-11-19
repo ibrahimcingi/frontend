@@ -132,7 +132,6 @@ export  function CheckoutPage() {
           credentials:'include',
           headers:{'Content-Type': 'application/json',},
           body: JSON.stringify({
-            email:formData.email,
             paymentMethodId: paymentMethod.id,
             priceId: billingCycle==='monthly' ? selectedPlan.monthlyPriceId : selectedPlan.yearlyPriceId,
             plan:selectedPlan,
@@ -390,7 +389,7 @@ export  function CheckoutPage() {
                 <button
                   onClick={handleSubmit}
                   disabled={isProcessing}
-                  className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2"
+                  className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2 cursor-pointer"
                 >
                   {isProcessing ? (
                     <>
