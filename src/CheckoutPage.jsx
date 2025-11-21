@@ -7,7 +7,7 @@ import {
 import { Root } from '../config.js';
 import { useNavigate } from 'react-router-dom';
 
-import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
+import { CardElement,CardCvcElement,CardExpiryElement,CardNumberElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { useLocation } from "react-router-dom";
 
 
@@ -115,7 +115,7 @@ export  function CheckoutPage() {
     setIsProcessing(true);
 
     try {
-        const cardElement = elements.getElement(CardElement);
+        const cardElement = elements.getElement(CardNumberElement);
     
         const { paymentMethod } = await stripe.createPaymentMethod({
           type: "card",
@@ -284,22 +284,57 @@ export  function CheckoutPage() {
                   Kart Bilgileri <span className="text-red-400">*</span>
                 </label>
 
-                <div className="relative p-3 border rounded-xl bg-white/5 border-gray-600 focus-within:ring-2 focus-within:ring-purple-500">
-                        <CardElement
-                          options={{
-                            hidePostalCode:true,
-                            style: {
-                              base: {
-                                fontSize: "16px",
-                                color: "#fff",
-                                "::placeholder": {
-                                  color: "#aaa",
-                                },
-                              },
+                <div className="space-y-4">
+                  {/* Card Number (üstte) */}
+                  <div className="relative p-3 border rounded-xl bg-white/5 border-gray-600 focus-within:ring-2 focus-within:ring-purple-500">
+                    <CardNumberElement
+                      options={{
+                        showIcon: true,
+                        style: {
+                          base: {
+                            fontSize: "16px",
+                            color: "#fff",
+                            "::placeholder": { color: "#aaa" },
+                          },
+                        },
+                      }}
+                    />
+                  </div>
+
+                  {/* Alt satır: Expiry + CVC yan yana */}
+                  <div className="grid grid-cols-2 gap-4">
+                    {/* Expiry */}
+                    <div className="relative p-3 border rounded-xl bg-white/5 border-gray-600 focus-within:ring-2 focus-within:ring-purple-500">
+                      <CardExpiryElement
+                        options={{
+                          style: {
+                            base: {
+                              fontSize: "16px",
+                              color: "#fff",
+                              "::placeholder": { color: "#aaa" },
                             },
-                          }}
-                        />
+                          },
+                        }}
+                      />
                     </div>
+
+                    {/* CVC */}
+                    <div className="relative p-3 border rounded-xl bg-white/5 border-gray-600 focus-within:ring-2 focus-within:ring-purple-500">
+                      <CardCvcElement
+                        options={{
+                          style: {
+                            base: {
+                              fontSize: "16px",
+                              color: "#fff",
+                              "::placeholder": { color: "#aaa" },
+                            },
+                          },
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+
                 {/* Billing Address */}
                 <div>
                   <label className="block text-sm font-medium text-gray-200 mb-2">
@@ -400,7 +435,7 @@ export  function CheckoutPage() {
                   ) : (
                     <>
                       <Lock className="w-5 h-5" />
-                      Güvenli Ödeme Yap - ${selectedPlan.price}
+                      Güvenli Ödeme Yap - ${billingCycle==='monthly' ? selectedPlan.monthlyPrice:selectedPlan.yearlyPrice}
                     </>
                   )}
                 </button>
