@@ -122,7 +122,7 @@ export  function ForgotPasswordPage() {
       const response=await fetch(`${Root}/api/auth/resetPassword`,{
         method:"POST",
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({OTP:otp.join(''),new_password:newPassword,email:email})
+        body: JSON.stringify({new_password:newPassword,email:email})
       })
 
       const data=await response.json()
