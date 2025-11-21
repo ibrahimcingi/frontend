@@ -25,7 +25,7 @@ export  function PlansPage() {
     if(showSuccessMessage){
       setTimeout(()=>{
         setShowSuccessMessage(false)
-        alert('Ödeme sayfasına yönlendiriliyorsunuz...');
+        setIsProcessing(false)
         navigate("/Checkout", {
           state: {
             plan: {
@@ -35,22 +35,20 @@ export  function PlansPage() {
             billingCycle:billingCycle
           }
         });
-        
-        
-      },5000)
+      },2000)
     }
   },[showSuccessMessage])
 
   useEffect(()=>{
     if(showErrorMessage){
-      setTimeout(() => setShowErrorMessage(false), 5000);
+      setTimeout(()=>{
+        setShowErrorMessage(false)
+        setIsProcessing(false)
+      },2000)
     }
   },[showErrorMessage])
-
+  
  
-
-
-
   // Kullanıcının mevcut planı (backend'den gelecek)
   useEffect(()=>{
     if(!loading){
@@ -149,13 +147,12 @@ export  function PlansPage() {
       if(response.ok){
         setTimeout(()=>{
           setShowSuccessMessage(true)
-          setIsProcessing(false)
           console.log('Selected plan:', selectedPlan, 'Billing cycle:', billingCycle);
         },200)
       }  
 
     }catch(error){
-      setIsProcessing(false)
+      setShowErrorMessage(true)
       console.error(error)
     }
     
