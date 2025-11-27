@@ -2,7 +2,7 @@ import React, { useState,useEffect } from 'react';
 import { 
   Settings, LogOut, User, Menu, X, Home, FileText,
   BookOpen, Lock, Mail, Globe, Key, Tag, Save, 
-  CreditCard, Bell, Shield, Trash2, CheckCircle, Eye, EyeOff
+  CreditCard, Bell, Shield, Trash2, CheckCircle, Eye, EyeOff,AlertCircle
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Root } from '../config.js';
@@ -16,7 +16,9 @@ export  function SettingsPage() {
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showNewPasswordConfirm,setShowNewPasswordConfirm]=useState(false)
   const [showSuccessMessage,setShowSuccessMessage]=useState(false)
+  const [showErrorMessage,setShowErrorMessage]=useState(false)
   const [successMessage, setSuccessMessage] = useState(null);
+  const [errorMessage,setErrorMessage]=useState(null)
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const navigate=useNavigate()
   const { user,setUser ,loading } = useUser();
@@ -63,6 +65,18 @@ export  function SettingsPage() {
       return () => clearTimeout(timer);
     }
   }, [showSuccessMessage]);
+
+  useEffect(() => {
+    if (showErrorMessage) {
+      const timer = setTimeout(() => {
+        setShowErrorMessage(false);
+      }, 5000); // animasyon süresi kadar (5 saniye)
+  
+      return () => clearTimeout(timer);
+    }
+  }, [showErrorMessage]);
+
+
 
 
 
@@ -139,6 +153,8 @@ export  function SettingsPage() {
     } catch (error) {
       console.error('Save error:', error);
       setIsSaving(false);
+      setShowErrorMessage(true)
+      setErrorMessage('Bir şeyler ters gitti.Lütfen daha sonra tekrar deneyin.')
     }
   };
 
@@ -180,6 +196,8 @@ export  function SettingsPage() {
       
     } catch (error) {
       console.error('Password change error:', error);
+      setShowErrorMessage(true)
+      setErrorMessage('Bir şeyler ters gitti.Lütfen daha sonra tekrar deneyin.')
       setIsSaving(false);
     }
   };
@@ -212,6 +230,8 @@ export  function SettingsPage() {
  
     } catch (error) {
       console.error('Save error:', error);
+      setShowErrorMessage(true)
+      setErrorMessage('Bir şeyler ters gitti.Lütfen daha sonra tekrar deneyin.')
       setIsSaving(false);
     }
   };
@@ -241,6 +261,8 @@ export  function SettingsPage() {
       }
     } catch (error) {
       console.error('Save error:', error);
+      setShowErrorMessage(true)
+      setErrorMessage('Bir şeyler ters gitti.Lütfen daha sonra tekrar deneyin.')
       setIsSaving(false);
     }
   };
@@ -270,7 +292,8 @@ export  function SettingsPage() {
         }
       }catch(error){
         console.error('Delete error:', error);
-
+        setShowErrorMessage(true)
+        setErrorMessage('Bir şeyler ters gitti.Lütfen daha sonra tekrar deneyin.')
       }
 
     }
@@ -290,6 +313,8 @@ export  function SettingsPage() {
 
     }catch(error){
       console.error("Logout error:", error);
+      setShowErrorMessage(true)
+      setErrorMessage('Bir şeyler ters gitti.Lütfen daha sonra tekrar deneyin.')
     }
 
   };
@@ -315,6 +340,9 @@ export  function SettingsPage() {
       }
 
     }catch(error){
+      console.error(error)
+      setShowErrorMessage(true)
+      setErrorMessage('Bir şeyler ters gitti.Lütfen daha sonra tekrar deneyin.')
 
     }
   }
@@ -333,6 +361,8 @@ export  function SettingsPage() {
       }
     }catch(error){
       console.error("LogoutAll error:", error);
+      setShowErrorMessage(true)
+      setErrorMessage('Bir şeyler ters gitti.Lütfen daha sonra tekrar deneyin.')
 
     }
   }
@@ -901,6 +931,30 @@ export  function SettingsPage() {
             {/* Progress Bar */}
             <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/20 rounded-b-xl overflow-hidden">
               <div className="h-full bg-white/60 animate-progress"></div>
+            </div>
+          </div>
+        </div>
+      )}
+
+
+       {/* Error Toast */}
+       {showErrorMessage && (
+        <div className="fixed top-6 right-6 z-50 animate-slide-in">
+          <div className="bg-gradient-to-r from-red-600 to-red-700 text-white rounded-xl shadow-2xl p-4 pr-12 min-w-[320px] max-w-md border border-red-400/30 backdrop-blur-lg">
+            <div className="flex items-start gap-3">
+              <div className="flex-shrink-0 w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                <AlertCircle className="w-6 h-6 text-white" />
+              </div>
+              <div className="flex-1">
+                <h4 className="font-semibold text-sm mb-1">Hata!</h4>
+                <p className="text-sm text-red-50">{errorMessage}</p>
+              </div>
+              <button
+                onClick={() => setErrorMessage(null)}
+                className="absolute top-3 right-3 text-white/80 hover:text-white transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
             </div>
           </div>
         </div>
